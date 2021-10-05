@@ -32,7 +32,7 @@ function welcomeSceneGenerate(){
 
     // On leave
     welcomeScene.leave( async (ctx) => {
-        await ctx.reply("Выход из WelcomeScene", {
+        await ctx.reply("Выход из WelcomeScene, переход обратно в app.js", {
             reply_markup: markup.reply_markup
         })
     })
