@@ -25,14 +25,14 @@ function welcomeSceneGenerate(){
     })
 
     welcomeScene.on("text", async (ctx) => {
-        await ctx.reply(`Ну а меня зовут ... ну ты уже прочитал, наверное. Бот-ассистент)`)
+        await ctx.reply("Ну а меня зовут ... ну ты уже прочитал, наверное. Бот-ассистент)")
         await ctx.scene.leave()
     })
 
 
     // On leave
     welcomeScene.leave( async (ctx) => {
-        await ctx.reply(`Выход из WelcomeScene`, {
+        await ctx.reply("Выход из WelcomeScene", {
             reply_markup: markup.reply_markup
         })
     })
