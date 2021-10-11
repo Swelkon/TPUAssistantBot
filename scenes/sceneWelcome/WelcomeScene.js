@@ -1,20 +1,20 @@
-const { Scenes, Markup } = require("telegraf")
-const constants = require("../../constants")
+const {Scenes, Markup} = require("telegraf")
+const {CONSTANTS, SCENE_IDS} = require("../../constants")
 
 const markup = Markup.keyboard([
-    constants.BUTTON_TEXT_HELLO
+    CONSTANTS.BUTTON_TEXT_HELLO
 ]).resize(true)
 
 
-function welcomeSceneGenerate(){
+function welcomeSceneGenerate() {
 
     // Create
-    const welcomeScene = new Scenes.BaseScene(constants.SCENE_ID_WELCOME)
+    const welcomeScene = new Scenes.BaseScene(SCENE_IDS.WELCOME)
 
     // Enter
-    welcomeScene.enter( async (ctx) => {
+    welcomeScene.enter(async (ctx) => {
         await ctx.replyWithSticker("CAACAgIAAxkBAAIJj2FLk06bEFWfhI1_-CiwZFA80Fh-AAJcBAACnNbnClokfVuRQO25IQQ")
-        await ctx.reply(constants.INTRODUCTION)
+        await ctx.reply(CONSTANTS.INTRODUCTION)
     })
 
     // On text
@@ -31,7 +31,7 @@ function welcomeSceneGenerate(){
 
 
     // On leave
-    welcomeScene.leave( async (ctx) => {
+    welcomeScene.leave(async (ctx) => {
         await ctx.reply("Выход из WelcomeScene, переход обратно в app.js", {
             reply_markup: markup.reply_markup
         })

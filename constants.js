@@ -1,4 +1,4 @@
-const constants = {
+const CONSTANTS = {
 
     INTRODUCTION: "Привет, я Ассистент студента ТПУ\n" +
         "Буду рад помочь тебе освоится внутри нашего университета\n" +
@@ -9,7 +9,14 @@ const constants = {
     BUTTON_TEXT_HELLO_AGAIN: "Привет еще раз",
     BUTTON_TEXT_DONT_REPEAT: "Эй не повторяйся!",
 
-    SCENE_ID_WELCOME: 'welcome',
 }
 
-module.exports = constants
+const SCENE_IDS = {
+    WELCOME: 'welcome',
+    CAMPUS: 'campus'
+}
+
+module.exports = {
+    CONSTANTS: CONSTANTS,
+    SCENE_IDS: SCENE_IDS
+}
