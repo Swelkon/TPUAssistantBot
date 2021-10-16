@@ -25,7 +25,9 @@ const constants = {
     // Scene ids
     SCENE_ID_MAIN_MENU: 'main_menu',
     SCENE_ID_EDUCATION_SCENE: 'education',
+    SCENE_ID_CAMPUS: 'campus',
     SCENE_ID_CHAT_NOT_PRIVATE: 'chat_not_private',
 }
+
 
 module.exports = constants

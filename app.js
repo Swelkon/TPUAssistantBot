@@ -1,5 +1,6 @@
 const {Telegraf, Scenes, Markup, session} = require("telegraf")
 require("dotenv/config")
+const campusSceneGenerate = require("./scenes/sceneCampus/CampusScene")
 const constants = require("./constants")
 const mainMenuSceneGenerate = require("./scenes/MainMenuScene")
 
@@ -9,6 +10,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN)
 
 // Stages init
 const stage = new Scenes.Stage([
+    campusSceneGenerate()
     mainMenuSceneGenerate()
 ])
 
@@ -31,6 +33,9 @@ bot.start(async (ctx) => {
     await ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
 })
 
+
+bot.command('loc', async (ctx) =>
+    await ctx.scene.enter(SCENE_IDS.CAMPUS))
 
 bot.launch()
 
