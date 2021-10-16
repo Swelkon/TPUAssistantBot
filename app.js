@@ -1,7 +1,7 @@
 const {Telegraf, Scenes, Markup, session} = require("telegraf")
 require("dotenv/config")
 const constants = require("./constants")
-const welcomeSceneGenerate = require("./scenes/sceneWelcome/WelcomeScene")
+const mainMenuSceneGenerate = require("./scenes/MainMenuScene")
 
 // Bot init
 const bot = new Telegraf(process.env.BOT_TOKEN)
@@ -9,7 +9,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN)
 
 // Stages init
 const stage = new Scenes.Stage([
-    welcomeSceneGenerate()
+    mainMenuSceneGenerate()
 ])
 
 // Middlewares
@@ -20,18 +20,17 @@ bot.use(stage.middleware())
 
 // Middleware: Check if chat type is private
 bot.use((ctx, next) => ctx.chat && ctx.chat.type !== "private" ? ctx.reply(constants.TEXT_CHAT_NOT_PRIVATE) : next())
+// bot.use((ctx, next) => ctx.chat && ctx.chat.type === "channel" ? ctx.reply(ctx.channelPost.text) : next())
+// bot.use((ctx, next) => ctx.chat && ctx.chat.type === "group" ? ctx.reply(ctx.g.text) : next())
 
 
 // Commands
 bot.start(async (ctx) => {
-    await ctx.scene.enter(constants.SCENE_ID_WELCOME)
+    await ctx.replyWithSticker(constants.STICKER_ID_HELLO)
+    await ctx.reply(constants.TEXT_INTRODUCTION)
+    await ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
 })
 
-bot.hears(constants.BUTTON_TEXT_HELLO, async (ctx) => {
-    await ctx.reply("Привет еще раз", {
-        reply_markup: Markup.removeKeyboard().reply_markup
-    })
-})
 
 bot.launch()
 
