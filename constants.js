@@ -14,17 +14,26 @@ const constants = {
 
 
     // Button texts
+    // Main menu
     BUTTON_TEXT_NEWS: "📩 Новости",
     BUTTON_TEXT_TIMETABLE: "📝 Расписание",
     BUTTON_TEXT_EDUCATION: "🏨 Образование",
     BUTTON_TEXT_PROFILE: "🙆‍♂️Профиль",
-    BUTTON_TEXT_CAMPUS_MAP: "🗺 Кампус",
+
+    // Education
+    BUTTON_TEXT_CAMPUS: "🗺 Кампус",
     BUTTON_TEXT_EDUCATION_PROGRAM: "🧑‍🎓 Образовательная программа",
+    BUTTON_TEXT_CAMPUS_MAP: "🗺 GoogleMaps",
+    BUTTON_TEXT_CAMPUS_LIST: "📍 Посмотреть списком",
+
+    // Else
+    BUTTON_TEXT_BACK: "Назад",
+    BUTTON_TEXT_MAIN_MENU: "⚙️ Главное меню",
 
 
     // Scene ids
     SCENE_ID_MAIN_MENU: 'main_menu',
-    SCENE_ID_EDUCATION_SCENE: 'education',
+    SCENE_ID_EDUCATION: 'education',
     SCENE_ID_CAMPUS: 'campus',
     SCENE_ID_CHAT_NOT_PRIVATE: 'chat_not_private',
 }

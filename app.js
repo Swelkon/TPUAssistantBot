@@ -1,8 +1,10 @@
-const {Telegraf, Scenes, Markup, session} = require("telegraf")
+const {Telegraf, Scenes,  session, Composer} = require("telegraf")
 require("dotenv/config")
-const campusSceneGenerate = require("./scenes/sceneCampus/CampusScene")
 const constants = require("./constants")
+
 const mainMenuSceneGenerate = require("./scenes/MainMenuScene")
+const educationSceneGenerate = require("./scenes/menuEducation/EducationScene")
+const campusSceneGenerate = require("./sceneaddeds/menuEducation/CampusScene")
 
 // Bot init
 const bot = new Telegraf(process.env.BOT_TOKEN)
@@ -10,8 +12,9 @@ const bot = new Telegraf(process.env.BOT_TOKEN)
 
 // Stages init
 const stage = new Scenes.Stage([
-    campusSceneGenerate()
-    mainMenuSceneGenerate()
+    mainMenuSceneGenerate(),
+    educationSceneGenerate(),
+    campusSceneGenerate(),
 ])
 
 // Middlewares
@@ -34,8 +37,10 @@ bot.start(async (ctx) => {
 })
 
 
-bot.command('loc', async (ctx) =>
-    await ctx.scene.enter(SCENE_IDS.CAMPUS))
+
+// bot.on("text", async (ctx) => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
+bot.on("text", Composer.privateChat((ctx) => {ctx.reply("Only private")}))
+
 
 bot.launch()
 
