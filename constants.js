@@ -21,10 +21,10 @@ const constants = {
     BUTTON_TEXT_PROFILE: "🙆‍♂️Профиль",
 
     // Education
-    BUTTON_TEXT_CAMPUS: "🗺 Кампус",
-    BUTTON_TEXT_EDUCATION_PROGRAM: "🧑‍🎓 Образовательная программа",
-    BUTTON_TEXT_CAMPUS_MAP: "🗺 GoogleMaps",
-    BUTTON_TEXT_CAMPUS_LIST: "📍 Посмотреть списком",
+    BUTTON_TEXT_CAMPUS: "Кампус",
+    BUTTON_TEXT_EDUCATION_PROGRAM: "Образовательная программа",
+    BUTTON_TEXT_CAMPUS_MAP: "GoogleMaps",
+    BUTTON_TEXT_CAMPUS_LIST: "Посмотреть списком",
 
     // Else
     BUTTON_TEXT_BACK: "Назад",
@@ -36,6 +36,7 @@ const constants = {
     SCENE_ID_EDUCATION: 'education',
     SCENE_ID_CAMPUS: 'campus',
     SCENE_ID_CHAT_NOT_PRIVATE: 'chat_not_private',
+    SCENE_ID_PROFILE: 'profile',
 }
 
 
