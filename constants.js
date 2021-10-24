@@ -36,6 +36,7 @@ const constants = {
     SCENE_ID_EDUCATION: 'education',
     SCENE_ID_CAMPUS: 'campus',
     SCENE_ID_CHAT_NOT_PRIVATE: 'chat_not_private',
+    SCENE_ID_PROFILE: 'profile',
 }
 
 

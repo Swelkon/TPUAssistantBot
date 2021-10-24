@@ -20,7 +20,7 @@ function mainMenuSceneGenerate() {
     mainMenuScene.hears(constants.BUTTON_TEXT_NEWS, async (ctx) => {})
     mainMenuScene.hears(constants.BUTTON_TEXT_TIMETABLE, async (ctx) => {})
     mainMenuScene.hears(constants.BUTTON_TEXT_EDUCATION, async (ctx) => ctx.scene.enter(constants.SCENE_ID_EDUCATION))
-    mainMenuScene.hears(constants.BUTTON_TEXT_PROFILE, async (ctx) => {})
+    mainMenuScene.hears(constants.BUTTON_TEXT_PROFILE, async (ctx) => ctx.scene.enter(constants.SCENE_ID_PROFILE))
 
     mainMenuScene.on("message", async (ctx) => ctx.reply("Выберите пункт из меню"))
 
