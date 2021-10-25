@@ -62,6 +62,8 @@ bot.start(async (ctx) => {
             await ctx.replyWithSticker(constants.STICKER_ID_HELLO)
             await ctx.reply(constants.TEXT_INTRODUCTION)
             await ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
+
+            ctx.session
         }
     } catch (e) {
         console.log(e)
@@ -72,9 +74,9 @@ bot.start(async (ctx) => {
 
 
 // bot.on("text", async (ctx) => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
-bot.on("text", Composer.privateChat((ctx) => {
-    ctx.reply("Only private")
-}))
+// bot.on("text", Composer.privateChat((ctx) => {
+//     ctx.reply("Only private")
+// }))
 
 
 bot.launch()
