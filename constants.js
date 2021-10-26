@@ -2,7 +2,7 @@ const constants = {
 
     // Bot messages
     TEXT_INTRODUCTION: "Привет, я Ассистент студента ТПУ\n" +
-        "Буду рад помочь тебе освоится внутри нашего университета\n",
+        "Буду рад помочь тебе освоиться внутри нашего университета\n",
 
     TEXT_MAIN_MENU: "Главное меню",
 
@@ -32,6 +32,7 @@ const constants = {
 
 
     // Scene ids
+    SCENE_ID_START: 'start',
     SCENE_ID_MAIN_MENU: 'main_menu',
     SCENE_ID_EDUCATION: 'education',
     SCENE_ID_CAMPUS: 'campus',
