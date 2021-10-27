@@ -20,6 +20,9 @@ const constants = {
     BUTTON_TEXT_EDUCATION: "🏨 Образование",
     BUTTON_TEXT_PROFILE: "🙆‍♂️Профиль",
 
+    // News
+    BUTTON_TEXT_BROADCAST: "Сделать массовую рассылку",
+
     // Education
     BUTTON_TEXT_CAMPUS: "Кампус",
     BUTTON_TEXT_EDUCATION_PROGRAM: "Образовательная программа",
@@ -37,6 +40,8 @@ const constants = {
     SCENE_ID_CAMPUS: 'campus',
     SCENE_ID_CHAT_NOT_PRIVATE: 'chat_not_private',
     SCENE_ID_PROFILE: 'profile',
+    SCENE_ID_BROADCAST: 'broadcast',
+    SCENE_ID_NEWS: 'news',
 }
 
 
