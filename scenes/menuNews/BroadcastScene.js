@@ -5,17 +5,23 @@ const CHOICE_KEYBOARD = Markup.inlineKeyboard([
     Markup.button.callback('Да', 'btn_yes'), Markup.button.callback('Нет', 'btn_no')
 ])
 
+const BROADCAST_MARKUP = Markup.keyboard([
+    constants.BUTTON_TEXT_BACK,
+    constants.BUTTON_TEXT_MAIN_MENU
+]).resize(true)
+
 let msg
-const users = [452118266]
+const users = [-1001186580954,  -638272000]
 
 function broadcastSceneGenerate() {
     return new WizardScene(
         constants.SCENE_ID_BROADCAST,
         async (ctx) => {
-            await ctx.reply('Наберите текст сообщения')
+            await ctx.reply('Наберите текст сообщения', BROADCAST_MARKUP)
             return ctx.wizard.next()
         },
         async (ctx) => {
+            if (ctx.message.text === constants.BUTTON_TEXT_BACK) ctx.scene.enter(constants.SCENE_ID_NEWS)
             if (ctx.message.text === constants.BUTTON_TEXT_MAIN_MENU) ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
             else {
                 msg = ctx.message.text
