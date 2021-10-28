@@ -26,6 +26,11 @@ const constants = {
     BUTTON_TEXT_CAMPUS_MAP: "GoogleMaps",
     BUTTON_TEXT_CAMPUS_LIST: "Посмотреть списком",
 
+    // AskQuestion
+    BUTTON_TEXT_DEAN: "Деканат",
+    BUTTON_TEXT_STUDENT_COUNCIL: "Студсовет",
+    BUTTON_TEXT_STUDENTS: "Студенты",
+
     // Else
     BUTTON_TEXT_BACK: "Назад",
     BUTTON_TEXT_MAIN_MENU: "⚙️ Главное меню",
@@ -37,6 +42,8 @@ const constants = {
     SCENE_ID_CAMPUS: 'campus',
     SCENE_ID_CHAT_NOT_PRIVATE: 'chat_not_private',
     SCENE_ID_PROFILE: 'profile',
+    SCENE_ID_NEWS: 'news',
+        SCENE_ID_ASK_QUESTION: 'ask_question' // табуляция как указание на вложенность
 }
 
 
