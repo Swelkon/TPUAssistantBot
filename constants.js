@@ -18,7 +18,7 @@ const constants = {
     BUTTON_TEXT_NEWS: "📩 Новости",
     BUTTON_TEXT_TIMETABLE: "📝 Расписание",
     BUTTON_TEXT_EDUCATION: "🏨 Образование",
-    BUTTON_TEXT_PROFILE: "🙆‍♂️Профиль",
+    BUTTON_TEXT_PROFILE: "🙆‍♂️ Профиль",
 
     // News
     BUTTON_TEXT_BROADCAST: "Сделать массовую рассылку",
