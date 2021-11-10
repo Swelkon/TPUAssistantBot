@@ -10,7 +10,7 @@ function startSceneGenerate() {
 
     // On Enter
     startScene.enter(async (ctx) => {
-        // Try to get user
+        //await ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
         try {
             // Check if access_token is provided
             const access_token = ctx.message.text.split(" ")[1]

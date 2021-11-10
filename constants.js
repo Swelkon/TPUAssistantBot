@@ -15,19 +15,26 @@ const constants = {
 
     // Button texts
     // Main menu
-    BUTTON_TEXT_NEWS: "📩 Новости",
+    BUTTON_TEXT_NEWS: "📩 Новости ({0})",
     BUTTON_TEXT_TIMETABLE: "📝 Расписание",
     BUTTON_TEXT_EDUCATION: "🏨 Образование",
     BUTTON_TEXT_PROFILE: "🙆‍♂️ Профиль",
 
     // News
+    BUTTON_TEXT_POLLS: "Голосования ({0})",
     BUTTON_TEXT_BROADCAST: "Сделать массовую рассылку",
+    BUTTON_TEXT_ASK_QUESTION: "Задать вопрос Q&A",
 
     // Education
     BUTTON_TEXT_CAMPUS: "Кампус",
     BUTTON_TEXT_EDUCATION_PROGRAM: "Образовательная программа",
     BUTTON_TEXT_CAMPUS_MAP: "GoogleMaps",
     BUTTON_TEXT_CAMPUS_LIST: "Посмотреть списком",
+
+    // AskQuestion
+    BUTTON_TEXT_DEAN: "Деканат",
+    BUTTON_TEXT_STUDENT_COUNCIL: "Студсовет",
+    BUTTON_TEXT_STUDENTS: "Студенты",
 
     // Else
     BUTTON_TEXT_BACK: "Назад",
@@ -43,6 +50,8 @@ const constants = {
     SCENE_ID_PROFILE: 'profile',
     SCENE_ID_BROADCAST: 'broadcast',
     SCENE_ID_NEWS: 'news',
+    SCENE_ID_ASK_QUESTION: 'ask_question',
+    SCENE_ID_POLLS: 'polls'
 }
 
 

@@ -1,23 +1,37 @@
 const { Scenes, Markup } = require('telegraf')
 const constants = require("../constants")
+const format = require("string-format")
+const DataBus = require("../model/DataBus");
 
-const MAIN_MENU_MARKUP = Markup.keyboard([
-    constants.BUTTON_TEXT_NEWS,
-    constants.BUTTON_TEXT_TIMETABLE,
-    constants.BUTTON_TEXT_EDUCATION,
-    constants.BUTTON_TEXT_PROFILE,
-]).resize(true)
+format.extend(String.prototype, {})
+
+// const MAIN_MENU_MARKUP = Markup.keyboard([
+//     constants.BUTTON_TEXT_NEWS.format(DataBus.polls.length),
+//     constants.BUTTON_TEXT_TIMETABLE,
+//     constants.BUTTON_TEXT_EDUCATION,
+//     constants.BUTTON_TEXT_PROFILE,
+// ]).resize(true)
+
+function getMainMenuMarkup(){
+    return Markup.keyboard([
+        constants.BUTTON_TEXT_NEWS.format(DataBus.polls.length),
+        constants.BUTTON_TEXT_TIMETABLE,
+        constants.BUTTON_TEXT_EDUCATION,
+        constants.BUTTON_TEXT_PROFILE,
+    ]).resize(true)
+}
 
 function mainMenuSceneGenerate() {
     const  mainMenuScene = new Scenes.BaseScene( constants.SCENE_ID_MAIN_MENU )
 
     mainMenuScene.enter( async (ctx) => {
         await ctx.reply(constants.TEXT_MAIN_MENU, {
-            reply_markup: MAIN_MENU_MARKUP.reply_markup
+            reply_markup: getMainMenuMarkup().reply_markup
         })
     })
 
-    mainMenuScene.hears(constants.BUTTON_TEXT_NEWS, async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
+    // mainMenuScene.hears(constants.BUTTON_TEXT_NEWS, async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
+    mainMenuScene.hears(new RegExp('Новости'), async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
     mainMenuScene.hears(constants.BUTTON_TEXT_TIMETABLE, async (ctx) => {})
     mainMenuScene.hears(constants.BUTTON_TEXT_EDUCATION, async (ctx) => ctx.scene.enter(constants.SCENE_ID_EDUCATION))
     mainMenuScene.hears(constants.BUTTON_TEXT_PROFILE, async (ctx) => ctx.scene.enter(constants.SCENE_ID_PROFILE))
