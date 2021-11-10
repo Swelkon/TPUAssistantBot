@@ -2,6 +2,7 @@ const { Scenes, Markup } = require('telegraf')
 const constants = require("../constants")
 const format = require("string-format")
 const DataBus = require("../model/DataBus");
+const Api = require("../model/api/Api");
 
 format.extend(String.prototype, {})
 
@@ -13,21 +14,32 @@ format.extend(String.prototype, {})
 // ]).resize(true)
 
 function getMainMenuMarkup(){
-    return Markup.keyboard([
-        constants.BUTTON_TEXT_NEWS.format(DataBus.polls.length),
-        constants.BUTTON_TEXT_TIMETABLE,
-        constants.BUTTON_TEXT_EDUCATION,
-        constants.BUTTON_TEXT_PROFILE,
-    ]).resize(true)
+    if (DataBus.numOfNews === 0){
+        return Markup.keyboard([
+            constants.BUTTON_TEXT_ZERO_NEWS,
+            constants.BUTTON_TEXT_TIMETABLE,
+            constants.BUTTON_TEXT_EDUCATION,
+            constants.BUTTON_TEXT_PROFILE,
+        ]).resize(true)
+    } else {
+        return Markup.keyboard([
+            constants.BUTTON_TEXT_NEWS.format(DataBus.numOfNews),
+            constants.BUTTON_TEXT_TIMETABLE,
+            constants.BUTTON_TEXT_EDUCATION,
+            constants.BUTTON_TEXT_PROFILE,
+        ]).resize(true)
+    }
 }
 
 function mainMenuSceneGenerate() {
     const  mainMenuScene = new Scenes.BaseScene( constants.SCENE_ID_MAIN_MENU )
 
     mainMenuScene.enter( async (ctx) => {
+
         await ctx.reply(constants.TEXT_MAIN_MENU, {
             reply_markup: getMainMenuMarkup().reply_markup
         })
+
     })
 
     // mainMenuScene.hears(constants.BUTTON_TEXT_NEWS, async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))

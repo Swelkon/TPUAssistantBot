@@ -15,12 +15,14 @@ const constants = {
 
     // Button texts
     // Main menu
+    BUTTON_TEXT_ZERO_NEWS: "📩 Новости",
     BUTTON_TEXT_NEWS: "📩 Новости ({0})",
     BUTTON_TEXT_TIMETABLE: "📝 Расписание",
     BUTTON_TEXT_EDUCATION: "🏨 Образование",
     BUTTON_TEXT_PROFILE: "🙆‍♂️ Профиль",
 
     // News
+    BUTTON_TEXT_POSTS: "Посты ({0})",
     BUTTON_TEXT_POLLS: "Голосования ({0})",
     BUTTON_TEXT_BROADCAST: "Сделать массовую рассылку",
     BUTTON_TEXT_ASK_QUESTION: "Задать вопрос Q&A",
@@ -51,7 +53,8 @@ const constants = {
     SCENE_ID_BROADCAST: 'broadcast',
     SCENE_ID_NEWS: 'news',
     SCENE_ID_ASK_QUESTION: 'ask_question',
-    SCENE_ID_POLLS: 'polls'
+    SCENE_ID_POLLS: 'polls',
+    SCENE_ID_POSTS: 'posts'
 }
 
 

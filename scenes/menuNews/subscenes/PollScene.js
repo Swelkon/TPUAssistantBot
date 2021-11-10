@@ -15,6 +15,7 @@ function pollSceneGenerate() {
             for (const poll of DataBus.polls) {
                 console.log(poll)
                 await ctx.telegram.forwardMessage(ctx.chat.id, poll.from_chat_id, poll.message_id)
+                await sleep(50)
             }
         }
 
@@ -22,6 +23,11 @@ function pollSceneGenerate() {
     })
 
     return  pollScene
+}
+
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 module.exports =  pollSceneGenerate

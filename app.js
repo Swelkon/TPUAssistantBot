@@ -11,6 +11,7 @@ const newsSceneGenerate = require("./scenes/menuNews/NewsScene")
 const broadcastSceneGenerate = require("./scenes/menuNews/subscenes/BroadcastScene")
 const askQuestionSceneGenerate = require("./scenes/menuNews/subscenes/AskQuestionScene")
 const pollSceneGenerate = require("./scenes/menuNews/subscenes/PollScene")
+const postSceneGenerate = require("./scenes/menuNews/subscenes/PostScene")
 const channelSceneFunction = require("./scenes/ChannelScene")
 
 // Bot init
@@ -27,7 +28,8 @@ const stage = new Scenes.Stage([
     newsSceneGenerate(),
     broadcastSceneGenerate(),
     askQuestionSceneGenerate(),
-    pollSceneGenerate()
+    pollSceneGenerate(),
+    postSceneGenerate()
 ])
 
 // Middlewares

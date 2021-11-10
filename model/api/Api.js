@@ -1,4 +1,5 @@
 const axios = require("axios");
+const ChannelPost = require('../data/ChannelPost')
 
 class Api {
 
@@ -18,6 +19,26 @@ class Api {
         return response.data
     }
 
+    static async createPost({from_chat_id, message_id, date, is_poll}) {
+        const channelPost = new ChannelPost({
+            from_chat_id: from_chat_id,
+            message_id: message_id,
+            date: date,
+            is_poll: is_poll
+        })
+        const response = await axios.post(`${Api.SERVER_URL}/channels/posts`, channelPost)
+        return response.data
+    }
+
+    static async getTestPosts(){
+        const response = await axios.get(`${Api.SERVER_URL}/channels/posts`)
+        return response.data
+    }
+
+    // static async getPolls(){
+    //     const response = await axios.get(`${Api.SERVER_URL}/channels/polls`)
+    //     return response.data
+    // }
 
     static getAuthorizationUrl({chat_id, access_token}) {
         return `${Api.SERVER_URL}/users/authorize?chat_id=${chat_id}&access_token=${access_token}`

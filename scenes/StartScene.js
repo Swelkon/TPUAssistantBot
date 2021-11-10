@@ -3,6 +3,7 @@ const constants = require("../constants")
 const Api = require("../model/api/Api")
 const DataBus = require("../model/DataBus")
 
+const REMOVE_MARKUP = Markup.removeKeyboard()
 
 // Scene generate
 function startSceneGenerate() {
@@ -23,9 +24,10 @@ function startSceneGenerate() {
 
             // If status if not OK
             if (serverResponse.status !== Api.STATUS_OK) {
-                await ctx.reply("Вы у нас в первый раз? Авторизируйтесь через почту ТПУ!")
+                await ctx.reply("Вы у нас в первый раз? Авторизируйтесь через почту ТПУ!", REMOVE_MARKUP)
                 await ctx.reply(Api.getRegistrationURL({chat_id: chat_id}))
             } else {
+                DataBus.updatePosts()
                 // DataBus set ctx.session.user
                 DataBus.setUser({ctx: ctx, user: serverResponse.data, chat_id: chat_id, access_token: access_token})
 
@@ -33,6 +35,7 @@ function startSceneGenerate() {
                 await ctx.reply(constants.TEXT_INTRODUCTION)
                 await ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
             }
+
         } catch (e) {
             console.log(e)
         }
