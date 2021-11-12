@@ -20,6 +20,10 @@ const SUBMIT_MARKUP = Markup.inlineKeyboard([
     [Markup.button.callback("Отправить", "btn_submit"), Markup.button.callback("Отмена", "btn_cancel")]
 ]).resize(true)
 
+
+const DEAN_OFFICE = -603452093
+const STUDENT_UNION = -795223750
+
 function askQuestionSceneGenerate() {
     // handlers
     const enterHandler = new Composer()
@@ -34,7 +38,7 @@ function askQuestionSceneGenerate() {
         if (ctx.message.text === constants.BUTTON_TEXT_DEAN ||
             ctx.message.text === constants.BUTTON_TEXT_STUDENT_COUNCIL ||
             ctx.message.text === constants.BUTTON_TEXT_STUDENTS) {
-            ctx.state.addressee = ctx.message.text
+            ctx.scene.state.addressee = ctx.message.text
             ctx.reply('Напишите текст вопроса', QUESTION_MARKUP)
             return ctx.wizard.next()
         } else {
@@ -44,9 +48,9 @@ function askQuestionSceneGenerate() {
 
     const questionTextHandler = new Composer()
     questionTextHandler.on('text', async (ctx) => {
-        ctx.state.questionText = ctx.message.text
+        ctx.scene.state.questionText = ctx.message.text
         ctx.reply('Подтвердите отправку', RETURN_BACK_MARKUP)
-        ctx.reply(`Адресат: ${ctx.state.addressee}\nВопрос: ${ctx.state.questionText}`, SUBMIT_MARKUP)
+        ctx.reply(`Адресат: ${ctx.scene.state.addressee}\nВопрос: ${ctx.scene.state.questionText}`, SUBMIT_MARKUP)
         return ctx.wizard.next()
     })
 
@@ -54,6 +58,9 @@ function askQuestionSceneGenerate() {
     confirmMessageHandler.on('callback_query', async (ctx) => {
         switch (ctx.callbackQuery?.data) {
             case 'btn_submit':
+                const recipientId = ctx.scene.state.addressee === constants.BUTTON_TEXT_DEAN ? DEAN_OFFICE : STUDENT_UNION
+                const username = ctx.callbackQuery.from.username
+                await ctx.telegram.sendMessage(recipientId, `Вам вопрос от @${username}:\n${ctx.scene.state.questionText}`)
                 ctx.reply('Письмо отправлено, ожидайте ответ')
                 return ctx.scene.enter(constants.SCENE_ID_NEWS)
                 break

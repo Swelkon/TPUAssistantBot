@@ -11,13 +11,13 @@ function startSceneGenerate() {
 
     // On Enter
     startScene.enter(async (ctx) => {
-        //await ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
+        // await ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
         try {
             // Check if access_token is provided
             const access_token = ctx.message.text.split(" ")[1]
             const chat_id = ctx.chat.id
 
-            const serverResponse = await Api.authorizeUser({
+            const serverResponse = await Api.retrieveUser({
                 chat_id: chat_id,
                 access_token: access_token
             })
@@ -38,6 +38,8 @@ function startSceneGenerate() {
 
         } catch (e) {
             console.log(e)
+            await ctx.reply('Упс, извините, проблемы с сервером, попробуйте еще раз')
+            await ctx.scene.reenter()
         }
     })
 

@@ -13,13 +13,13 @@ class Api {
 
 
     // Authorize method
-    static async authorizeUser({chat_id, access_token}) {
+    static async retrieveUser({chat_id, access_token}) {
         const response = await axios.get(Api.getAuthorizationUrl({chat_id, access_token}))
         console.log("Class: Api\nMethod: 'authorizeUser'\nResponse:", response)
         return response.data
     }
 
-    static async createPost({from_chat_id, message_id, date, is_poll}) {
+    static async submitPost({from_chat_id, message_id, date, is_poll}) {
         const channelPost = new ChannelPost({
             from_chat_id: from_chat_id,
             message_id: message_id,
@@ -30,7 +30,7 @@ class Api {
         return response.data
     }
 
-    static async getTestPosts(){
+    static async retrievePosts(){
         const response = await axios.get(`${Api.SERVER_URL}/channels/posts`)
         return response.data
     }

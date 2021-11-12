@@ -9,6 +9,7 @@ class DataBus {
 
     static polls = []
     static posts = []
+    static allowedChannels = [-1001614453874]
 
     static setUser({ctx, user, chat_id, access_token}) {
         ctx.session.user = new User({
@@ -35,15 +36,19 @@ class DataBus {
     }
 
     static async updatePosts(){
-        const serverResponse = await Api.getTestPosts()
-        if (serverResponse.status === Api.STATUS_OK) {
-            console.log("ChannelScene: updating posts")
-            const allPosts = serverResponse.data
-            const textPosts = allPosts.filter((post) => !post.is_poll)
-            const polls = allPosts.filter((post) => post.is_poll)
+        try {
+            const serverResponse = await Api.retrievePosts()
+            if (serverResponse.status === Api.STATUS_OK) {
+                console.log("ChannelScene: updating posts")
+                const allPosts = serverResponse.data
+                const textPosts = allPosts.filter((post) => !post.is_poll)
+                const polls = allPosts.filter((post) => post.is_poll)
 
-            DataBus.updateTextPosts({posts: textPosts})
-            DataBus.updatePolls({polls: polls})
+                DataBus.updateTextPosts({posts: textPosts})
+                DataBus.updatePolls({polls: polls})
+            }
+        } catch (e) {
+            console.log("Error! Could not retrieve posts")
         }
     }
 }

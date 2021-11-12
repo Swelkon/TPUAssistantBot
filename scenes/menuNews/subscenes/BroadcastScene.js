@@ -11,7 +11,7 @@ const BROADCAST_MARKUP = Markup.keyboard([
 ]).resize(true)
 
 let msg
-const users = [-1001186580954,  -638272000]
+const users = [-612095035, -699676297]
 
 function broadcastSceneGenerate() {
     return new WizardScene(
