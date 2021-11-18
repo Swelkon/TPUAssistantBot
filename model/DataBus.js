@@ -19,11 +19,16 @@ class DataBus {
             lichnost_id: user.lichnost_id,
             user_id: user.user_id,
             chat_id: chat_id,
+            gruppa: user.gruppa,
+            department: user.department,
+            direction_of_training: user.direction_of_training,
+            form_of_education: user.form_of_education,
+            type_of_financing: user.type_of_financing,
             access_token: access_token
         })
     }
 
-    static getUser({ctx}) {
+    static getUser({ctx}){
         return ctx.session.user
     }
 

@@ -13,7 +13,7 @@ function profileSceneGenerate() {
     profileScene.enter(async (ctx) => {
         const user = DataBus.getUser({ctx: ctx})
         if (user) {
-            await ctx.reply(`Имя: ${user.first_name}\nФамилия: ${user.last_name}\nПочта ТПУ: ${user.email}`, PROFILE_MARKUP)
+            await ctx.reply(`Имя: ${user.first_name}\nФамилия: ${user.last_name}\nПочта ТПУ: ${user.email}\nГруппа: ${user.gruppa}\nШкола: ${user.department}\nНаправление: ${user.direction_of_training}\nФорма обучения: ${user.form_of_education}\nТип финансирования: ${user.type_of_financing}`, PROFILE_MARKUP)
         } else {
             await ctx.reply("Не вижу ваш профиль 🐀")
         }
