@@ -21,6 +21,17 @@ const constants = {
     BUTTON_TEXT_EDUCATION: "🏨 Образование",
     BUTTON_TEXT_PROFILE: "🙆‍♂️ Профиль",
 
+    // Timetable
+    BUTTON_TEXT_TT_TODAY: "Расписание на сегодня",
+    BUTTON_TEXT_TT_TOMORROW: "Расписание на завтра",
+    BUTTON_TEXT_TT_DAY: "Расписание на день",
+    // BUTTON_TEXT_TT_MONDAY: "Понедельник",
+    // BUTTON_TEXT_TT_TUESDAY: "Вторник",
+    // BUTTON_TEXT_TT_WEDNESDAY: "Среда",
+    // BUTTON_TEXT_TT_THURSDAY: "Четверг",
+    // BUTTON_TEXT_TT_FRIDAY: "Пятница",
+    // BUTTON_TEXT_TT_SATURDAY: "Суббота",
+
     // News
     BUTTON_TEXT_POSTS: "Посты ({0})",
     BUTTON_TEXT_POLLS: "Голосования ({0})",
@@ -54,7 +65,8 @@ const constants = {
     SCENE_ID_NEWS: 'news',
     SCENE_ID_ASK_QUESTION: 'ask_question',
     SCENE_ID_POLLS: 'polls',
-    SCENE_ID_POSTS: 'posts'
+    SCENE_ID_POSTS: 'posts',
+    SCENE_ID_TIMETABLE: 'timetable'
 }
 
 

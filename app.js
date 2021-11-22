@@ -4,33 +4,35 @@ const constants = require("./constants")
 
 const startSceneGenerate = require("./scenes/StartScene")
 const mainMenuSceneGenerate = require("./scenes/MainMenuScene")
-const educationSceneGenerate = require("./scenes/menuEducation/EducationScene")
-const campusSceneGenerate = require("./scenes/menuEducation/subscenes/CampusScene")
-const profileSceneGenerate = require("./scenes/menuProfile/ProfileScene")
-const newsSceneGenerate = require("./scenes/menuNews/NewsScene")
-const broadcastSceneGenerate = require("./scenes/menuNews/subscenes/BroadcastScene")
-const askQuestionSceneGenerate = require("./scenes/menuNews/subscenes/AskQuestionScene")
-const pollSceneGenerate = require("./scenes/menuNews/subscenes/PollScene")
-const postSceneGenerate = require("./scenes/menuNews/subscenes/PostScene")
-const channelSceneFunction = require("./scenes/ChannelScene")
+// const educationSceneGenerate = require("./scenes/menuEducation/EducationScene")
+// const campusSceneGenerate = require("./scenes/menuEducation/subscenes/CampusScene")
+// const profileSceneGenerate = require("./scenes/menuProfile/ProfileScene")
+// const newsSceneGenerate = require("./scenes/menuNews/NewsScene")
+// const broadcastSceneGenerate = require("./scenes/menuNews/subscenes/BroadcastScene")
+// const askQuestionSceneGenerate = require("./scenes/menuNews/subscenes/AskQuestionScene")
+// const pollSceneGenerate = require("./scenes/menuNews/subscenes/PollScene")
+// const postSceneGenerate = require("./scenes/menuNews/subscenes/PostScene")
+const timetableSceneGenerate = require("./scenes/timetable/TimetableScene")
+// const channelSceneFunction = require("./scenes/ChannelScene")
 const {log} = require("nodemon/lib/utils");
 
 // Bot init
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Telegraf("2057283260:AAGhr7QLhID8Dtp9-owkcFS1tr0Jpf5Innw") // process.env.BOT_TOKEN)
 
 
 // Stages init
 const stage = new Scenes.Stage([
     startSceneGenerate(),
     mainMenuSceneGenerate(),
-    educationSceneGenerate(),
-    campusSceneGenerate(),
-    profileSceneGenerate(),
-    newsSceneGenerate(),
-    broadcastSceneGenerate(),
-    askQuestionSceneGenerate(),
-    pollSceneGenerate(),
-    postSceneGenerate()
+    // educationSceneGenerate(),
+    // campusSceneGenerate(),
+    // profileSceneGenerate(),
+    // newsSceneGenerate(),
+    // broadcastSceneGenerate(),
+    // askQuestionSceneGenerate(),
+    // pollSceneGenerate(),
+    // postSceneGenerate(),
+    timetableSceneGenerate()
 ])
 
 // Middlewares
