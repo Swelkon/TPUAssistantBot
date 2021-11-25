@@ -4,6 +4,7 @@ const DataBus = require("../model/DataBus");
 
 
 async function channelSceneFunction(ctx) {
+    //TODO: Проверка канала ТПУ должна проходить на сервере
     if (DataBus.allowedChannels.includes(ctx.chat.id)){
         try{
             if (ctx.channelPost) {

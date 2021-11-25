@@ -1,94 +1,96 @@
 const { Scenes, Markup } = require('telegraf')
 const constants = require("../../constants")
 const Lesson = require("./Lesson")
+const DataBus = require("../../model/DataBus")
+const {log} = require("nodemon/lib/utils");
 
 // example of the response from the server
-const response = [
-    {
-        "start": "2021-11-08 08:30:00",
-        "end": "2021-11-08 10:05:00",
-        "weekday": "Monday",
-        "tip": "Лабораторная работа",
-        "place": null,
-        "event": null,
-        "disciplina": {
-            "full_name": "Тестирование программного обеспечения"
-        },
-        "lichnost": [
-            {
-                "title": "Копнов М. В."
-            }
-        ]
-    },
-    {
-        "start": "2021-11-10 08:30:00",
-        "end": "2021-11-10 18:05:00",
-        "weekday": "Wednesday",
-        "tip": "Практика",
-        "place": null,
-        "event": null,
-        "disciplina": {
-            "full_name": "Военная подготовка"
-        },
-        "lichnost": []
-    },
-    {
-        "start": "2021-11-11 12:40:00",
-        "end": "2021-11-11 14:15:00",
-        "weekday": "Thursday",
-        "tip": "Лабораторная работа",
-        "place": null,
-        "event": null,
-        "disciplina": {
-            "full_name": "Разработка приложений для мобильных устройств"
-        },
-        "lichnost": [
-            {
-                "title": "Дорофеев В. А."
-            }
-        ]
-    },
-    {
-        "start": "2021-11-11 12:40:00",
-        "end": "2021-11-11 14:15:00",
-        "tip": "Лекция",
-        "place": null,
-        "event": null,
-        "disciplina": {
-            "full_name": "Компьютерная графика, виртуальная и дополненная реальность"
-        },
-        "lichnost": [
-            {
-                "title": "Демин А. Ю."
-            }
-        ]
-    },
-    {
-        "start": "2021-11-12 16:30:00",
-        "end": "2021-11-12 18:05:00",
-        "tip": "Лабораторная работа",
-        "weekday": "Friday",
-        "place": {
-            "nomer": "403Б",
-            "korpus": "10"
-        },
-        "event": null,
-        "disciplina": {
-            "full_name": "Методы машинного обучения"
-        },
-        "lichnost": [
-            {
-                "title": "Друки А. А."
-            }
-        ]
-    }
-]
+// const response = [
+//     {
+//         "start": "2021-11-08 08:30:00",
+//         "end": "2021-11-08 10:05:00",
+//         "weekday": "Monday",
+//         "tip": "Лабораторная работа",
+//         "place": null,
+//         "event": null,
+//         "disciplina": {
+//             "full_name": "Тестирование программного обеспечения"
+//         },
+//         "lichnost": [
+//             {
+//                 "title": "Копнов М. В."
+//             }
+//         ]
+//     },
+//     {
+//         "start": "2021-11-10 08:30:00",
+//         "end": "2021-11-10 18:05:00",
+//         "weekday": "Wednesday",
+//         "tip": "Практика",
+//         "place": null,
+//         "event": null,
+//         "disciplina": {
+//             "full_name": "Военная подготовка"
+//         },
+//         "lichnost": []
+//     },
+//     {
+//         "start": "2021-11-11 12:40:00",
+//         "end": "2021-11-11 14:15:00",
+//         "weekday": "Thursday",
+//         "tip": "Лабораторная работа",
+//         "place": null,
+//         "event": null,
+//         "disciplina": {
+//             "full_name": "Разработка приложений для мобильных устройств"
+//         },
+//         "lichnost": [
+//             {
+//                 "title": "Дорофеев В. А."
+//             }
+//         ]
+//     },
+//     {
+//         "start": "2021-11-11 12:40:00",
+//         "end": "2021-11-11 14:15:00",
+//         "tip": "Лекция",
+//         "place": null,
+//         "event": null,
+//         "disciplina": {
+//             "full_name": "Компьютерная графика, виртуальная и дополненная реальность"
+//         },
+//         "lichnost": [
+//             {
+//                 "title": "Демин А. Ю."
+//             }
+//         ]
+//     },
+//     {
+//         "start": "2021-11-12 16:30:00",
+//         "end": "2021-11-12 18:05:00",
+//         "tip": "Лабораторная работа",
+//         "weekday": "Friday",
+//         "place": {
+//             "nomer": "403Б",
+//             "korpus": "10"
+//         },
+//         "event": null,
+//         "disciplina": {
+//             "full_name": "Методы машинного обучения"
+//         },
+//         "lichnost": [
+//             {
+//                 "title": "Друки А. А."
+//             }
+//         ]
+//     }
+// ]
 
 let lessons = []
-for (let i = 0; i < response.length; i++) {
-    let l = response[i]
-    lessons.push(new Lesson(l.start, l.end, l.tip, l.place, l.event, l.disciplina, l.lichnost))
-}
+// for (let i = 0; i < response.length; i++) {
+//     let l = response[i]
+//     lessons.push(new Lesson(l.start, l.end, l.tip, l.place, l.event, l.disciplina, l.lichnost))
+// }
 
 const TIMETABLE_MARKUP = Markup.keyboard([
     constants.BUTTON_TEXT_TT_TODAY,
@@ -111,7 +113,7 @@ const weekdays = ['воскресенье', 'понедельник', 'втор�
 const weekdays_btn = ['0', 'btn_monday', 'btn_tuesday',
     'btn_wednesday', 'btn_thursday', 'btn_friday','btn_saturday']
 const lessonsTime = {
-    '08:30 – 18:05': '#️⃣',
+    // '08:30 – 18:05': '#️⃣',
     '08:30 – 10:05': '1️⃣',
     '10:25 – 12:00': '2️⃣',
     '12:40 – 14:15': '3️⃣',
@@ -121,13 +123,24 @@ const lessonsTime = {
     '20:20 – 21:55': '7️⃣'
 }
 
-let date = new Date('2021-11-08T08:30:00') // date example
+let date = new Date() // date example
 let numDate = date.getDay()
 
 function timetableSceneGenerate() {
     const  timetableScene = new Scenes.BaseScene(constants.SCENE_ID_TIMETABLE)
 
     timetableScene.enter( async (ctx) => {
+        date = new Date() // date example
+        numDate = date.getDay()
+
+        await DataBus.updateTimetable({ctx: ctx, chat_id: ctx.chat.id, access_token: ctx.session.user.access_token})
+
+        lessons = []
+        const retrievedLessons = DataBus.getLessons({ctx: ctx})
+        for (let i = 0; i < retrievedLessons.length; i++) {
+            let l = retrievedLessons[i]
+            lessons.push(new Lesson(l.start, l.end, l.tip, l.place, l.event, l.disciplina, l.lichnost))
+        }
         await ctx.reply('Раздел "Расписание"', TIMETABLE_MARKUP)
     })
 
@@ -152,8 +165,9 @@ async function sendTimetable(day, ctx) {
         str += `${lessonsTime[time]} ${time}\n`
         for (let i = 0; i < lessons.length; i++) {
             let l = lessons[i]
-            if (l.date.getDay() === day && `${l.start} – ${l.end}` === `${time}`) {
-                str += `— <i>${l.disciplina?.full_name}</i>\n`
+            // if (l.date.getDay() === day && `${l.start} – ${l.end}` === `${time}`) {
+           if (l.date.getDay() === day && parseInt(l.start.substr(0, 2), 10) <= parseInt(time.substr(0, 2), 10) && parseInt(l.end.substr(0, 2), 10) >= parseInt(time.substr(8, 2), 10)-1) {
+                str += `\n🔸 <i>${l.disciplina?.full_name}</i>\n`
                 for (let j = 0; j < l.lichnost.length; j++) {
                     if (l.lichnost?.[j]) str += `${l.lichnost?.[j]?.title}\n`
                 }

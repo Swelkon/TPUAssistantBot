@@ -44,7 +44,6 @@ class DataBus {
         try {
             const serverResponse = await Api.retrievePosts()
             if (serverResponse.status === Api.STATUS_OK) {
-                console.log("ChannelScene: updating posts")
                 const allPosts = serverResponse.data
                 const textPosts = allPosts.filter((post) => !post.is_poll)
                 const polls = allPosts.filter((post) => post.is_poll)
@@ -56,6 +55,23 @@ class DataBus {
             console.log("Error! Could not retrieve posts")
         }
     }
+
+    static async updateTimetable({ctx, chat_id, access_token}){
+        try {
+            const serverResponse = await Api.retrieveTimetable({chat_id, access_token})
+            if (serverResponse.status === Api.STATUS_OK) {
+                const lessons = serverResponse.data
+                ctx.session.lessons = lessons
+            }
+        } catch (e) {
+            console.log("Error! Could not retrieve posts")
+        }
+    }
+
+    static getLessons({ctx}){
+        return ctx.session.lessons
+    }
+
 }
 
 module.exports = DataBus
