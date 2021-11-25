@@ -1,10 +1,10 @@
 const { Scenes, Markup } = require('telegraf')
 const constants = require("../constants")
-// const format = require("string-format")
+const format = require("string-format")
 const DataBus = require("../model/DataBus");
 const Api = require("../model/api/Api");
 
-// format.extend(String.prototype, {})
+format.extend(String.prototype, {})
 
 // const MAIN_MENU_MARKUP = Markup.keyboard([
 //     constants.BUTTON_TEXT_NEWS.format(DataBus.polls.length),
@@ -14,21 +14,21 @@ const Api = require("../model/api/Api");
 // ]).resize(true)
 
 function getMainMenuMarkup(){
-    // if (DataBus.numOfNews === 0){
-    //     return Markup.keyboard([
-    //         constants.BUTTON_TEXT_ZERO_NEWS,
-    //         constants.BUTTON_TEXT_TIMETABLE,
-    //         constants.BUTTON_TEXT_EDUCATION,
-    //         constants.BUTTON_TEXT_PROFILE,
-    //     ]).resize(true)
-    // } else {
+    if (DataBus.numOfNews === 0){
+        return Markup.keyboard([
+            constants.BUTTON_TEXT_ZERO_NEWS,
+            constants.BUTTON_TEXT_TIMETABLE,
+            constants.BUTTON_TEXT_EDUCATION,
+            constants.BUTTON_TEXT_PROFILE,
+        ]).resize(true)
+    } else {
         return Markup.keyboard([
             constants.BUTTON_TEXT_NEWS, // .format(DataBus.numOfNews),
             constants.BUTTON_TEXT_TIMETABLE,
             constants.BUTTON_TEXT_EDUCATION,
             constants.BUTTON_TEXT_PROFILE,
         ]).resize(true)
-    // }
+    }
 }
 
 function mainMenuSceneGenerate() {
