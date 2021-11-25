@@ -40,16 +40,22 @@ function postSceneGenerate() {
     postScene.on("callback_query", async (ctx) => {
         switch (ctx.callbackQuery?.data){
             case 'btn_yes':
-                const serverResponse = await Api.submitPost({
+                ctx.answerCbQuery()
+
+                // Handle ServerResponse.status
+                switch (await DataBus.submitPost({
                     from_chat_id: ctx.scene.state.from_chat_id,
                     message_id: ctx.scene.state.message_id,
                     date: ctx.scene.state.date,
                     is_poll: ctx.scene.state.is_poll
-                })
-
-                serverResponse.status === Api.STATUS_OK ? console.log("Channel post saved", serverResponse.data) : console.log("Channel poll hasn't been saved", serverResponse.data)
-                serverResponse.status === Api.STATUS_OK ? await ctx.reply("Пост сохранен") : await ctx.reply("Не получилось отправить пост(")
-                DataBus.updatePosts()
+                })) {
+                    case Api.STATUS_OK:
+                        await ctx.reply("Пост сохранен")
+                        break
+                    default:
+                        await ctx.reply("Не получилось опубликовать пост(")
+                        break
+                }
 
                 break
             default:
@@ -67,3 +73,15 @@ function sleep(ms) {
 }
 
 module.exports =  postSceneGenerate
+
+
+// const serverResponse = await Api.submitPost({
+//     from_chat_id: ctx.scene.state.from_chat_id,
+//     message_id: ctx.scene.state.message_id,
+//     date: ctx.scene.state.date,
+//     is_poll: ctx.scene.state.is_poll
+// })
+//
+// serverResponse.status === Api.STATUS_OK ? console.log("Channel post saved", serverResponse.data) : console.log("Channel poll hasn't been saved", serverResponse.data)
+// serverResponse.status === Api.STATUS_OK ? await ctx.reply("Пост сохранен") : await ctx.reply("Не получилось отправить пост(")
+// DataBus.updatePosts()
