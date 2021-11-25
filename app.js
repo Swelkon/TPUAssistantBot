@@ -12,6 +12,7 @@ const broadcastSceneGenerate = require("./scenes/menuNews/subscenes/BroadcastSce
 const askQuestionSceneGenerate = require("./scenes/menuNews/subscenes/AskQuestionScene")
 const pollSceneGenerate = require("./scenes/menuNews/subscenes/PollScene")
 const postSceneGenerate = require("./scenes/menuNews/subscenes/PostScene")
+const timetableSceneGenerate = require("./scenes/sceneTimetable/TimetableScene")
 const channelSceneFunction = require("./scenes/ChannelScene")
 const {log} = require("nodemon/lib/utils");
 
@@ -30,7 +31,8 @@ const stage = new Scenes.Stage([
     broadcastSceneGenerate(),
     askQuestionSceneGenerate(),
     pollSceneGenerate(),
-    postSceneGenerate()
+    postSceneGenerate(),
+    timetableSceneGenerate()
 ])
 
 // Middlewares

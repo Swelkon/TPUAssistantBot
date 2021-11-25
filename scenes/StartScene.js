@@ -11,36 +11,36 @@ function startSceneGenerate() {
 
     // On Enter
     startScene.enter(async (ctx) => {
-        // await ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
-        try {
-            // Check if access_token is provided
-            const access_token = ctx.message.text.split(" ")[1]
-            const chat_id = ctx.chat.id
+        await ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
+        // try {
+        //     // Check if access_token is provided
+        //     const access_token = ctx.message.text.split(" ")[1]
+        //     const chat_id = ctx.chat.id
 
-            const serverResponse = await Api.retrieveUser({
-                chat_id: chat_id,
-                access_token: access_token
-            })
+        //     const serverResponse = await Api.retrieveUser({
+        //         chat_id: chat_id,
+        //         access_token: access_token
+        //     })
 
-            // If status if not OK
-            if (serverResponse.status !== Api.STATUS_OK) {
-                await ctx.reply("Вы у нас в первый раз? Авторизируйтесь через почту ТПУ!", REMOVE_MARKUP)
-                await ctx.reply(Api.getRegistrationURL({chat_id: chat_id}))
-            } else {
-                DataBus.updatePosts()
-                // DataBus set ctx.session.user
-                DataBus.setUser({ctx: ctx, user: serverResponse.data, chat_id: chat_id, access_token: access_token})
+        //     // If status if not OK
+        //     if (serverResponse.status !== Api.STATUS_OK) {
+        //         await ctx.reply("Вы у нас в первый раз? Авторизируйтесь через почту ТПУ!", REMOVE_MARKUP)
+        //         await ctx.reply(Api.getRegistrationURL({chat_id: chat_id}))
+        //     } else {
+        //         DataBus.updatePosts()
+        //         // DataBus set ctx.session.user
+        //         DataBus.setUser({ctx: ctx, user: serverResponse.data, chat_id: chat_id, access_token: access_token})
 
-                await ctx.replyWithSticker(constants.STICKER_ID_HELLO)
-                await ctx.reply(constants.TEXT_INTRODUCTION)
-                await ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
-            }
+        //         await ctx.replyWithSticker(constants.STICKER_ID_HELLO)
+        //         await ctx.reply(constants.TEXT_INTRODUCTION)
+        //         await ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
+        //     }
 
-        } catch (e) {
-            console.log(e)
-            await ctx.reply('Упс, извините, проблемы с сервером, попробуйте еще раз')
-            await ctx.scene.reenter()
-        }
+        // } catch (e) {
+        //     console.log(e)
+        //     await ctx.reply('Упс, извините, проблемы с сервером, попробуйте еще раз')
+        //     await ctx.scene.reenter()
+        // }
     })
 
     return startScene

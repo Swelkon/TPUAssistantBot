@@ -23,7 +23,7 @@ function getMainMenuMarkup(){
         ]).resize(true)
     } else {
         return Markup.keyboard([
-            constants.BUTTON_TEXT_NEWS.format(DataBus.numOfNews),
+            constants.BUTTON_TEXT_NEWS, // .format(DataBus.numOfNews),
             constants.BUTTON_TEXT_TIMETABLE,
             constants.BUTTON_TEXT_EDUCATION,
             constants.BUTTON_TEXT_PROFILE,
@@ -44,7 +44,7 @@ function mainMenuSceneGenerate() {
 
     // mainMenuScene.hears(constants.BUTTON_TEXT_NEWS, async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
     mainMenuScene.hears(new RegExp('Новости'), async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
-    mainMenuScene.hears(constants.BUTTON_TEXT_TIMETABLE, async (ctx) => {})
+    mainMenuScene.hears(constants.BUTTON_TEXT_TIMETABLE, async (ctx) => ctx.scene.enter(constants.SCENE_ID_TIMETABLE))
     mainMenuScene.hears(constants.BUTTON_TEXT_EDUCATION, async (ctx) => ctx.scene.enter(constants.SCENE_ID_EDUCATION))
     mainMenuScene.hears(constants.BUTTON_TEXT_PROFILE, async (ctx) => ctx.scene.enter(constants.SCENE_ID_PROFILE))
     mainMenuScene.on("message", async (ctx) => ctx.reply("Выберите пункт из меню"))
