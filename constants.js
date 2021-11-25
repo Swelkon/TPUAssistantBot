@@ -25,12 +25,7 @@ const constants = {
     BUTTON_TEXT_TT_TODAY: "Расписание на сегодня",
     BUTTON_TEXT_TT_TOMORROW: "Расписание на завтра",
     BUTTON_TEXT_TT_DAY: "Расписание на день",
-    // BUTTON_TEXT_TT_MONDAY: "Понедельник",
-    // BUTTON_TEXT_TT_TUESDAY: "Вторник",
-    // BUTTON_TEXT_TT_WEDNESDAY: "Среда",
-    // BUTTON_TEXT_TT_THURSDAY: "Четверг",
-    // BUTTON_TEXT_TT_FRIDAY: "Пятница",
-    // BUTTON_TEXT_TT_SATURDAY: "Суббота",
+
 
     // News
     BUTTON_TEXT_POSTS: "Посты ({0})",
@@ -39,7 +34,7 @@ const constants = {
     BUTTON_TEXT_ASK_QUESTION: "Задать вопрос Q&A",
 
     // Education
-    BUTTON_TEXT_CAMPUS: "Кампус",
+    BUTTON_TEXT_CAMPUS: "🗺 Кампус",
     BUTTON_TEXT_EDUCATION_PROGRAM: "Образовательная программа",
     BUTTON_TEXT_CAMPUS_MAP: "GoogleMaps",
     BUTTON_TEXT_CAMPUS_LIST: "Посмотреть списком",

@@ -1,5 +1,6 @@
 const User = require('./data/User')
 const Api = require('./api/Api')
+const constants = require("../constants");
 
 class DataBus {
 
@@ -11,36 +12,70 @@ class DataBus {
     static posts = []
     static allowedChannels = [-1001614453874]
 
-    static setUser({ctx, user, chat_id, access_token}) {
-        ctx.session.user = new User({
-            last_name: user.last_name,
-            first_name: user.first_name,
-            email: user.email,
-            lichnost_id: user.lichnost_id,
-            user_id: user.user_id,
-            chat_id: chat_id,
-            gruppa: user.gruppa,
-            department: user.department,
-            direction_of_training: user.direction_of_training,
-            form_of_education: user.form_of_education,
-            type_of_financing: user.type_of_financing,
-            access_token: access_token
-        })
+    static async retrieveUser({ctx, chat_id, access_token}) {
+        try {
+            const serverResponse = await Api.retrieveUser({
+                chat_id: chat_id,
+                access_token: access_token
+            })
+
+            // If status is OK
+            if (serverResponse.status === Api.STATUS_OK) {
+                console.log("DataBus | retrieveUser() | user retrieved successfully ")
+                const user = serverResponse.data
+                ctx.session.user = new User({
+                    last_name: user.last_name,
+                    first_name: user.first_name,
+                    email: user.email,
+                    lichnost_id: user.lichnost_id,
+                    user_id: user.user_id,
+                    chat_id: chat_id,
+                    gruppa: user.gruppa,
+                    department: user.department,
+                    direction_of_training: user.direction_of_training,
+                    form_of_education: user.form_of_education,
+                    type_of_financing: user.type_of_financing,
+                    access_token: access_token
+                })
+                DataBus.retrievePosts()
+            }
+
+            return serverResponse.status
+        } catch (e) {
+            console.log("DataBus | retrieveUser() | Could not retrieve user information ")
+            return Api.STATUS_SERVER_ERROR
+        }
+
     }
 
-    static getUser({ctx}){
+    static getUser({ctx}) {
         return ctx.session.user
     }
 
-    static updateTextPosts({posts}){
-        this.posts = posts
+
+    static async submitPost({from_chat_id, message_id, date, is_poll}) {
+        try {
+            const serverResponse = await Api.submitPost({
+                from_chat_id: from_chat_id,
+                message_id: message_id,
+                date: date,
+                is_poll: is_poll
+            })
+
+            if (serverResponse.status === Api.STATUS_OK) {
+                console.log("DataBus | submitPost() | saved successfully ")
+                DataBus.retrievePosts()
+            }
+
+            return serverResponse.status
+        } catch (e) {
+            return Api.STATUS_SERVER_ERROR
+        }
+
     }
 
-    static updatePolls({polls}){
-        this.polls = polls
-    }
 
-    static async updatePosts(){
+    static async retrievePosts() {
         try {
             const serverResponse = await Api.retrievePosts()
             if (serverResponse.status === Api.STATUS_OK) {
@@ -51,33 +86,51 @@ class DataBus {
                 DataBus.updateTextPosts({posts: textPosts})
                 DataBus.updatePolls({polls: polls})
             }
+
+            return serverResponse.status
         } catch (e) {
-            console.log("Error! Could not retrieve posts")
+            console.log("DataBus | retrievePosts() | Error! Could not retrieve posts")
+            return Api.STATUS_SERVER_ERROR
         }
     }
 
-    static async updateTimetable({ctx, chat_id, access_token}){
+
+    static async retrieveUserTimetable({ctx, chat_id, access_token}) {
         try {
             const serverResponse = await Api.retrieveTimetable({chat_id, access_token})
+
             if (serverResponse.status === Api.STATUS_OK) {
                 const lessons = serverResponse.data
-                ctx.session.lessons = lessons
+                ctx.session.userTimetable = lessons
             }
+
+            return serverResponse.status
+
         } catch (e) {
-            console.log("Error! Could not retrieve posts")
+            console.log("DataBus | retrieveUserTimetable() | Error! Could not timetable for the user")
+            return Api.STATUS_SERVER_ERROR
         }
     }
 
-    static getLessons({ctx}){
-        return ctx.session.lessons
+    static getUserTimetable({ctx}) {
+        return ctx.session.userTimetable
+    }
+
+
+
+
+
+    static updateTextPosts({posts}) {
+        this.posts = posts
+    }
+
+    static updatePolls({polls}) {
+        this.polls = polls
     }
 
 }
 
 module.exports = DataBus
-
-
-
 
 
 // static addPoll({from_chat_id, message_id, date}) {
@@ -94,5 +147,22 @@ module.exports = DataBus
 //         from_chat_id: from_chat_id,
 //         message_id: message_id,
 //         date: date
+//     })
+// }
+
+// static setUser({ctx, user, chat_id, access_token}) {
+//     ctx.session.user = new User({
+//         last_name: user.last_name,
+//         first_name: user.first_name,
+//         email: user.email,
+//         lichnost_id: user.lichnost_id,
+//         user_id: user.user_id,
+//         chat_id: chat_id,
+//         gruppa: user.gruppa,
+//         department: user.department,
+//         direction_of_training: user.direction_of_training,
+//         form_of_education: user.form_of_education,
+//         type_of_financing: user.type_of_financing,
+//         access_token: access_token
 //     })
 // }

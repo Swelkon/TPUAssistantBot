@@ -2,7 +2,8 @@ const {Scenes: {BaseScene}, Markup} = require('telegraf')
 const buildings = require("../buildings")
 const constants = require("../../../constants")
 
-const CAMPUS_KEYBOARD_MARKUP = Markup.keyboard([[constants.BUTTON_TEXT_CAMPUS_MAP], [constants.BUTTON_TEXT_CAMPUS_LIST], [constants.BUTTON_TEXT_BACK, constants.BUTTON_TEXT_MAIN_MENU]]).resize(true)
+// const CAMPUS_KEYBOARD_MARKUP = Markup.keyboard([[constants.BUTTON_TEXT_CAMPUS_MAP], [constants.BUTTON_TEXT_CAMPUS_LIST], [constants.BUTTON_TEXT_BACK, constants.BUTTON_TEXT_MAIN_MENU]]).resize(true)
+const CAMPUS_KEYBOARD_MARKUP = Markup.keyboard([[constants.BUTTON_TEXT_CAMPUS_MAP], [constants.BUTTON_TEXT_CAMPUS_LIST], [constants.BUTTON_TEXT_MAIN_MENU]]).resize(true)
 
 const CAMPUS_INLINE_KEYBOARD = Markup.inlineKeyboard([
     [Markup.button.callback('ГК', 'btn_mainc'), Markup.button.callback('НТБ', 'btn_library')],
@@ -54,7 +55,7 @@ function campusSceneGenerate() {
     })
 
     // On back
-    campusScene.hears(constants.BUTTON_TEXT_BACK, (ctx) => ctx.scene.enter(constants.SCENE_ID_EDUCATION))
+    // campusScene.hears(constants.BUTTON_TEXT_BACK, (ctx) => ctx.scene.enter(constants.SCENE_ID_EDUCATION))
     campusScene.hears(constants.BUTTON_TEXT_MAIN_MENU, (ctx) => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
 
     return campusScene

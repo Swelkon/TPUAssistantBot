@@ -18,14 +18,16 @@ function getMainMenuMarkup(){
         return Markup.keyboard([
             constants.BUTTON_TEXT_ZERO_NEWS,
             constants.BUTTON_TEXT_TIMETABLE,
-            constants.BUTTON_TEXT_EDUCATION,
+            // constants.BUTTON_TEXT_EDUCATION,
+            constants.BUTTON_TEXT_CAMPUS,
             constants.BUTTON_TEXT_PROFILE,
         ]).resize(true)
     } else {
         return Markup.keyboard([
-            constants.BUTTON_TEXT_NEWS, // .format(DataBus.numOfNews),
+            constants.BUTTON_TEXT_NEWS.format(DataBus.numOfNews),
             constants.BUTTON_TEXT_TIMETABLE,
-            constants.BUTTON_TEXT_EDUCATION,
+            // constants.BUTTON_TEXT_EDUCATION,
+            constants.BUTTON_TEXT_CAMPUS,
             constants.BUTTON_TEXT_PROFILE,
         ]).resize(true)
     }
@@ -45,7 +47,8 @@ function mainMenuSceneGenerate() {
     // mainMenuScene.hears(constants.BUTTON_TEXT_NEWS, async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
     mainMenuScene.hears(new RegExp('Новости'), async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
     mainMenuScene.hears(constants.BUTTON_TEXT_TIMETABLE, async (ctx) => ctx.scene.enter(constants.SCENE_ID_TIMETABLE))
-    mainMenuScene.hears(constants.BUTTON_TEXT_EDUCATION, async (ctx) => ctx.scene.enter(constants.SCENE_ID_EDUCATION))
+    // mainMenuScene.hears(constants.BUTTON_TEXT_EDUCATION, async (ctx) => ctx.scene.enter(constants.SCENE_ID_EDUCATION))
+    mainMenuScene.hears(constants.BUTTON_TEXT_CAMPUS, async (ctx) => ctx.scene.enter(constants.SCENE_ID_CAMPUS))
     mainMenuScene.hears(constants.BUTTON_TEXT_PROFILE, async (ctx) => ctx.scene.enter(constants.SCENE_ID_PROFILE))
     mainMenuScene.on("message", async (ctx) => ctx.reply("Выберите пункт из меню"))
 
