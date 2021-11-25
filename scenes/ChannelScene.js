@@ -28,10 +28,13 @@ async function channelSceneFunction(ctx) {
                 }
 
                 DataBus.updatePosts()
+            }{
+
             }
 
         }catch (e) {
-            console.log("Error, could not save the post")
+            console.log("Error, could not save the post", e)
+            await ctx.reply("Не смог сохранить пост")
         }
     }
 }

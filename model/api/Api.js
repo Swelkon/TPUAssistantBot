@@ -32,6 +32,7 @@ class Api {
 
     static async retrievePosts(){
         const response = await axios.get(`${Api.SERVER_URL}/channels/posts`)
+        console.log(response.data)
         return response.data
     }
 
