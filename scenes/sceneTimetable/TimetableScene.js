@@ -1,4 +1,4 @@
-const { Scenes, Markup } = require('telegraf')
+const {Scenes, Markup} = require('telegraf')
 const constants = require("../../constants")
 const Lesson = require("./Lesson")
 const DataBus = require("../../model/DataBus")
@@ -26,7 +26,7 @@ const WEEKDAYS_MARKUP = Markup.inlineKeyboard([
 const weekdays = ['воскресенье', 'понедельник', 'вторник',
     'среду', 'четверг', 'пятницу', 'субботу']
 const weekdays_btn = ['0', 'btn_monday', 'btn_tuesday',
-    'btn_wednesday', 'btn_thursday', 'btn_friday','btn_saturday']
+    'btn_wednesday', 'btn_thursday', 'btn_friday', 'btn_saturday']
 const lessonsTime = {
     // '08:30 – 18:05': '#️⃣',
     '08:30 – 10:05': '1️⃣',
@@ -43,13 +43,17 @@ let numDate = date.getDay()
 let retrievedLessons = null
 
 function timetableSceneGenerate() {
-    const  timetableScene = new Scenes.BaseScene(constants.SCENE_ID_TIMETABLE)
+    const timetableScene = new Scenes.BaseScene(constants.SCENE_ID_TIMETABLE)
 
-    timetableScene.enter( async (ctx) => {
+    timetableScene.enter(async (ctx) => {
         date = new Date() // date example
         numDate = date.getDay()
 
-        switch (await DataBus.retrieveUserTimetable({ ctx: ctx, chat_id: ctx.chat.id, telegram_token: ctx.session.user.telegram_token})){
+        switch (await DataBus.retrieveUserTimetable({
+            ctx: ctx,
+            chat_id: ctx.chat.id,
+            telegram_token: ctx.session.user.telegram_token
+        })) {
             case Api.STATUS_OK:
                 lessons = []
                 retrievedLessons = DataBus.getUserTimetable({ctx: ctx})
@@ -72,18 +76,27 @@ function timetableSceneGenerate() {
 
         }
 
-   })
+    })
 
     timetableScene.hears(constants.BUTTON_TEXT_TT_TODAY, async (ctx) => sendTimetable(numDate, ctx))
     timetableScene.hears(constants.BUTTON_TEXT_TT_TOMORROW, async (ctx) => sendTimetable((numDate + 1) % 7, ctx))
     timetableScene.hears(constants.BUTTON_TEXT_TT_DAY, async (ctx) => ctx.reply('Расписание на неделю', WEEKDAYS_MARKUP))
     timetableScene.hears(constants.BUTTON_TEXT_MAIN_MENU, async (ctx) => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
     timetableScene.hears(new RegExp('/where'), async (ctx) => {
-        const lesson = lessons.find( (l, i, arr) => l.where === ctx.message.text)
+        const lesson = lessons.find((l, i, arr) => l.where === ctx.message.text)
         console.log("Found lesson: ", lesson)
-        const building = buildings.find( (b, i, arr) => b.short_name === lesson.place.korpus)
+        if (!lesson) {
+            await ctx.reply("Не могу найти какой это урок")
+            return
+        }
+        const building = buildings.find((b, i, arr) => b.short_name === lesson.place.korpus+"d")
+        if (!building) {
+            await ctx.reply("Не смог найти это здание")
+            return
+        }
         await ctx.replyWithHTML(building.address)
         await ctx.replyWithLocation(building.loc_lat, building.loc_long)
+
     })
 
     timetableScene.on("message", async (ctx) => ctx.reply("Выберите пункт из меню"))
@@ -93,7 +106,7 @@ function timetableSceneGenerate() {
         await sendTimetable(weekdays_btn.indexOf(ctx.callbackQuery.data), ctx)
     })
 
-    return  timetableScene
+    return timetableScene
 }
 
 async function sendTimetable(day, ctx) {
@@ -103,7 +116,7 @@ async function sendTimetable(day, ctx) {
         for (let i = 0; i < lessons.length; i++) {
             let l = lessons[i]
             // if (l.date.getDay() === day && `${l.start} – ${l.end}` === `${time}`) {
-           if (l.date.getDay() === day && parseInt(l.start.substr(0, 2), 10) <= parseInt(time.substr(0, 2), 10) && parseInt(l.end.substr(0, 2), 10) >= parseInt(time.substr(8, 2), 10)-1) {
+            if (l.date.getDay() === day && parseInt(l.start.substr(0, 2), 10) <= parseInt(time.substr(0, 2), 10) && parseInt(l.end.substr(0, 2), 10) >= parseInt(time.substr(8, 2), 10) - 1) {
                 str += `\n🔸 <i>${l.disciplina?.full_name}</i>\n`
                 for (let j = 0; j < l.lichnost.length; j++) {
                     if (l.lichnost?.[j]) str += `${l.lichnost?.[j]?.title}\n`
@@ -119,8 +132,6 @@ async function sendTimetable(day, ctx) {
 }
 
 module.exports = timetableSceneGenerate
-
-
 
 
 // let lessons = []
