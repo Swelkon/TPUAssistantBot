@@ -1,5 +1,5 @@
 const { Scenes, Markup } = require('telegraf')
-const constants = require("../../constants")
+const constants = require("../../model/constants")
 
 const EDUCATION_MARKUP = Markup.keyboard([
     constants.BUTTON_TEXT_CAMPUS,

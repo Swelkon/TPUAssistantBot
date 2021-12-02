@@ -1,5 +1,5 @@
 const {Scenes, Markup} = require('telegraf')
-const constants = require("../../constants")
+const constants = require("../../model/constants")
 const DataBus = require("../../model/DataBus")
 
 

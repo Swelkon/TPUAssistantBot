@@ -1,6 +1,6 @@
 const User = require('./data/User')
 const Api = require('./api/Api')
-const constants = require("../constants");
+const constants = require("./constants");
 
 class DataBus {
 

@@ -1,6 +1,6 @@
 const {Telegraf, Scenes, session, Composer} = require("telegraf")
 require("dotenv/config")
-const constants = require("./constants")
+const constants = require("./model/constants")
 
 const startSceneGenerate = require("./scenes/StartScene")
 const mainMenuSceneGenerate = require("./scenes/MainMenuScene")
@@ -12,7 +12,7 @@ const broadcastSceneGenerate = require("./scenes/menuNews/subscenes/BroadcastSce
 const askQuestionSceneGenerate = require("./scenes/menuNews/subscenes/AskQuestionScene")
 const pollSceneGenerate = require("./scenes/menuNews/subscenes/PollScene")
 const postSceneGenerate = require("./scenes/menuNews/subscenes/PostScene")
-const timetableSceneGenerate = require("./scenes/sceneTimetable/TimetableScene")
+const timetableSceneGenerate = require("./scenes/menuTimetable/TimetableScene")
 const channelSceneFunction = require("./scenes/ChannelScene")
 const {log} = require("nodemon/lib/utils");
 

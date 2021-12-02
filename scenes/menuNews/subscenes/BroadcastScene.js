@@ -1,5 +1,5 @@
 const {Scenes: {WizardScene}, Markup} = require('telegraf')
-const constants = require("../../../constants")
+const constants = require("../../../model/constants")
 
 const CHOICE_KEYBOARD = Markup.inlineKeyboard([
     Markup.button.callback('Да', 'btn_yes'), Markup.button.callback('Нет', 'btn_no')

@@ -1,19 +1,4 @@
-class Building {
-    // constructor(name, loc_lat, loc_long, address) {
-    //     this.name = name
-    //     this.loc_lat = loc_lat
-    //     this.loc_long = loc_long
-    //     this.address = address
-    // }
-
-    constructor(name, short_name, loc_lat, loc_long, address) {
-        this.name = name
-        this.short_name = short_name
-        this.loc_lat = loc_lat
-        this.loc_long = loc_long
-        this.address = address
-    }
-}
+const Building = require("../data/Building");
 
 const buildings = [
     new Building('btn_mainc', 'ГК', 56.46539, 84.950164, 'ГК: г. Томск, пр-кт. Ленина, д.30'),

@@ -1,6 +1,6 @@
 const {Scenes: {BaseScene}, Markup} = require('telegraf')
-const buildings = require("../buildings")
-const constants = require("../../../constants")
+const buildings = require("../../../model/mockdata/buildings")
+const constants = require("../../../model/constants")
 
 // const CAMPUS_KEYBOARD_MARKUP = Markup.keyboard([[constants.BUTTON_TEXT_CAMPUS_MAP], [constants.BUTTON_TEXT_CAMPUS_LIST], [constants.BUTTON_TEXT_BACK, constants.BUTTON_TEXT_MAIN_MENU]]).resize(true)
 const CAMPUS_KEYBOARD_MARKUP = Markup.keyboard([[constants.BUTTON_TEXT_CAMPUS_MAP], [constants.BUTTON_TEXT_CAMPUS_LIST], [constants.BUTTON_TEXT_MAIN_MENU]]).resize(true)

@@ -1,5 +1,5 @@
 const { Scenes, Markup } = require('telegraf')
-const constants = require("../constants")
+const constants = require("../model/constants")
 const format = require("string-format")
 const DataBus = require("../model/DataBus");
 const Api = require("../model/api/Api");
