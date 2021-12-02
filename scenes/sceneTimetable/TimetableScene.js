@@ -3,6 +3,7 @@ const constants = require("../../constants")
 const Lesson = require("./Lesson")
 const DataBus = require("../../model/DataBus")
 const Api = require("../../model/api/Api")
+const buildings = require("../menuEducation/buildings")
 
 let lessons = []
 
@@ -39,6 +40,7 @@ const lessonsTime = {
 
 let date = new Date() // date example
 let numDate = date.getDay()
+let retrievedLessons = null
 
 function timetableSceneGenerate() {
     const  timetableScene = new Scenes.BaseScene(constants.SCENE_ID_TIMETABLE)
@@ -47,29 +49,42 @@ function timetableSceneGenerate() {
         date = new Date() // date example
         numDate = date.getDay()
 
-        await DataBus.retrieveUserTimetable({ ctx: ctx, chat_id: ctx.chat.id, access_token: ctx.session.user.access_token})
+        switch (await DataBus.retrieveUserTimetable({ ctx: ctx, chat_id: ctx.chat.id, telegram_token: ctx.session.user.telegram_token})){
+            case Api.STATUS_OK:
+                lessons = []
+                retrievedLessons = DataBus.getUserTimetable({ctx: ctx})
+                if (retrievedLessons && retrievedLessons.length !== 0) {
+                    for (let i = 0; i < retrievedLessons.length; i++) {
+                        let l = retrievedLessons[i]
+                        lessons.push(new Lesson(l.id, l.start, l.end, l.tip, l.place, l.event, l.disciplina, l.lichnost))
+                    }
+                    await ctx.reply('Раздел "Расписание"', TIMETABLE_MARKUP)
+                    await sendTimetable(numDate, ctx)
+                } else {
+                    await ctx.reply('Извините, не смог найти информацию о вашем расписании')
+                    ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
+                }
+                break
+            default:
+                await ctx.reply("Мне нужно обновить данные. Пожалуйста, авторизируйтесь еще раз через почту ТПУ")
+                await ctx.scene.enter(constants.SCENE_ID_START)
+                break
 
-        lessons = []
-        const retrievedLessons = DataBus.getUserTimetable({ctx: ctx})
-
-        // Check if timetable is retrieved
-        if (retrievedLessons && retrievedLessons.length !== 0) {
-            for (let i = 0; i < retrievedLessons.length; i++) {
-                let l = retrievedLessons[i]
-                lessons.push(new Lesson(l.start, l.end, l.tip, l.place, l.event, l.disciplina, l.lichnost))
-            }
-            await ctx.reply('Раздел "Расписание"', TIMETABLE_MARKUP)
-        } else {
-            await ctx.reply('Извините, не смог найти информацию о вашем расписании')
-            ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
         }
 
-    })
+   })
 
     timetableScene.hears(constants.BUTTON_TEXT_TT_TODAY, async (ctx) => sendTimetable(numDate, ctx))
     timetableScene.hears(constants.BUTTON_TEXT_TT_TOMORROW, async (ctx) => sendTimetable((numDate + 1) % 7, ctx))
     timetableScene.hears(constants.BUTTON_TEXT_TT_DAY, async (ctx) => ctx.reply('Расписание на неделю', WEEKDAYS_MARKUP))
     timetableScene.hears(constants.BUTTON_TEXT_MAIN_MENU, async (ctx) => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
+    timetableScene.hears(new RegExp('/where'), async (ctx) => {
+        const lesson = lessons.find( (l, i, arr) => l.where === ctx.message.text)
+        console.log("Found lesson: ", lesson)
+        const building = buildings.find( (b, i, arr) => b.short_name === lesson.place.korpus)
+        await ctx.replyWithHTML(building.address)
+        await ctx.replyWithLocation(building.loc_lat, building.loc_long)
+    })
 
     timetableScene.on("message", async (ctx) => ctx.reply("Выберите пункт из меню"))
 
@@ -95,6 +110,7 @@ async function sendTimetable(day, ctx) {
                 }
                 str += `${l.tip}\n`
                 if (l?.place) str += `к. ${l.place?.korpus}, ауд. ${l.place?.nomer}\n`
+                if (l?.place) str += `Где это? ${l.where}\n`
             }
         }
         str += `\n`

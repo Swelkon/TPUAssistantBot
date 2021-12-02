@@ -1,5 +1,6 @@
 const axios = require("axios");
 const ChannelPost = require('../data/ChannelPost')
+const ServerRequest = require("./ServerRequest");
 
 class Api {
 
@@ -13,8 +14,9 @@ class Api {
 
 
     // Authorize method
-    static async retrieveUser({chat_id, access_token}) {
-        const response = await axios.get(`${Api.SERVER_URL}/users/authorize?chat_id=${chat_id}&access_token=${access_token}`)
+    static async retrieveUser({chat_id, telegram_token}) {
+        const request = new ServerRequest(chat_id, telegram_token)
+        const response = await axios.post(`${Api.SERVER_URL}/users/authorize`, request)
         console.log("Class: Api\nMethod: 'authorizeUser'\nResponse:", response)
         return response.data
     }
@@ -36,8 +38,9 @@ class Api {
         return response.data
     }
 
-    static async retrieveTimetable({chat_id, access_token}){
-        const response = await axios.get(`${Api.SERVER_URL}/rasp?chat_id=${chat_id}&access_token=${access_token}`)
+    static async retrieveTimetable({chat_id, telegram_token}){
+        const request = new ServerRequest(chat_id, telegram_token)
+        const response = await axios.post(`${Api.SERVER_URL}/rasp`, request)
         console.log(response.data)
         return response.data
     }

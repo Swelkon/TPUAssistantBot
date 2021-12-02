@@ -12,7 +12,7 @@ class User {
                     direction_of_training,
                     form_of_education,
                     type_of_financing,
-                    access_token
+                    telegram_token,
                 }) {
         this.last_name = last_name
         this.first_name = first_name
@@ -20,7 +20,7 @@ class User {
         this.lichnost_id = lichnost_id
         this.user_id = user_id
         this.chat_id = chat_id
-        this.access_token = access_token
+        this.telegram_token = telegram_token
         this.gruppa = gruppa
         this.department = department
         this.direction_of_training = direction_of_training
