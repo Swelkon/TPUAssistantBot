@@ -4,6 +4,7 @@ const Lesson = require("../../model/data/Lesson")
 const DataBus = require("../../model/DataBus")
 const Api = require("../../model/api/Api")
 const buildings = require("../../model/mockdata/buildings")
+const defaultAct = require("../../DefaultAct")
 
 let lessons = []
 
@@ -77,11 +78,11 @@ function timetableSceneGenerate() {
         }
 
     })
-
+    
+    defaultAct(timetableScene, constants.SCENE_ID_MAIN_MENU)
     timetableScene.hears(constants.BUTTON_TEXT_TT_TODAY, async (ctx) => sendTimetable(numDate, ctx))
     timetableScene.hears(constants.BUTTON_TEXT_TT_TOMORROW, async (ctx) => sendTimetable((numDate + 1) % 7, ctx))
     timetableScene.hears(constants.BUTTON_TEXT_TT_DAY, async (ctx) => ctx.reply('Расписание на неделю', WEEKDAYS_MARKUP))
-    timetableScene.hears(constants.BUTTON_TEXT_MAIN_MENU, async (ctx) => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
     timetableScene.hears(new RegExp('/where'), async (ctx) => {
         const lesson = lessons.find((l, i, arr) => l.where === ctx.message.text)
         console.log("Found lesson: ", lesson)

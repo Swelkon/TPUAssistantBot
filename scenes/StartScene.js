@@ -29,7 +29,6 @@ function startSceneGenerate() {
                 await ctx.reply("Вы у нас в первый раз? Авторизируйтесь через почту ТПУ!", REMOVE_MARKUP)
                 await ctx.reply(Api.getRegistrationURL({chat_id: chat_id}))
         }
-
     })
 
     return startScene

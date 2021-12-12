@@ -1,5 +1,6 @@
 const { Scenes, Markup } = require('telegraf')
 const constants = require("../../model/constants")
+const defaultAct = require("../../DefaultAct")
 
 const EDUCATION_MARKUP = Markup.keyboard([
     constants.BUTTON_TEXT_CAMPUS,
@@ -15,7 +16,7 @@ function educationSceneGenerate() {
 
     educationScene.hears(constants.BUTTON_TEXT_CAMPUS, async (ctx) => ctx.scene.enter(constants.SCENE_ID_CAMPUS))
 
-    educationScene.hears(constants.BUTTON_TEXT_MAIN_MENU, async (ctx) => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
+    defaultAct(educationScene, constants.SCENE_ID_MAIN_MENU)
 
     return  educationScene
 }

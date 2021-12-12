@@ -10,6 +10,7 @@ const profileSceneGenerate = require("./scenes/menuProfile/ProfileScene")
 const newsSceneGenerate = require("./scenes/menuNews/NewsScene")
 const broadcastSceneGenerate = require("./scenes/menuNews/subscenes/BroadcastScene")
 const askQuestionSceneGenerate = require("./scenes/menuNews/subscenes/AskQuestionScene")
+const faqSceneGenerate = require("./scenes/menuNews/subscenes/FAQScene")
 const pollSceneGenerate = require("./scenes/menuNews/subscenes/PollScene")
 const postSceneGenerate = require("./scenes/menuNews/subscenes/PostScene")
 const timetableSceneGenerate = require("./scenes/menuTimetable/TimetableScene")
@@ -32,6 +33,7 @@ const stage = new Scenes.Stage([
     askQuestionSceneGenerate(),
     pollSceneGenerate(),
     postSceneGenerate(),
+    faqSceneGenerate(),
     timetableSceneGenerate()
 ])
 

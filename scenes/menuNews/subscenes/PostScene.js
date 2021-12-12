@@ -1,8 +1,9 @@
 const { Scenes, Markup } = require('telegraf')
 const constants = require("../../../model/constants")
-const DataBus = require("../../../model/DataBus");
-const channelSceneFunction = require("../../ChannelScene");
-const Api = require("../../../model/api/Api");
+const DataBus = require("../../../model/DataBus")
+const channelSceneFunction = require("../../ChannelScene")
+const Api = require("../../../model/api/Api")
+const defaultAct = require("../../../DefaultAct")
 
 const POST_MARKUP = Markup.keyboard([[constants.BUTTON_TEXT_BACK, constants.BUTTON_TEXT_MAIN_MENU]]).resize(true)
 
@@ -24,8 +25,8 @@ function postSceneGenerate() {
         //await ctx.scene.enter(constants.SCENE_ID_NEWS)
     })
 
-    postScene.hears(constants.BUTTON_TEXT_BACK, async (ctx) => await ctx.scene.enter(constants.SCENE_ID_NEWS))
-    postScene.hears(constants.BUTTON_TEXT_MAIN_MENU, async (ctx) => await ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
+    defaultAct(postScene, constants.SCENE_ID_NEWS)
+
     postScene.on( "message", async (ctx) => {
         ctx.reply("Отправить пост?", {
             reply_to_message_id: ctx.message.message_id,

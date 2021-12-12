@@ -12,6 +12,7 @@ const QUESTION_MARKUP = Markup.keyboard([
     ["Изменить адресата"],
     [constants.BUTTON_TEXT_BACK, constants.BUTTON_TEXT_MAIN_MENU]
 ]).resize(true)
+
 const RETURN_BACK_MARKUP = Markup.keyboard([
     [constants.BUTTON_TEXT_BACK, constants.BUTTON_TEXT_MAIN_MENU]
 ]).resize(true)
@@ -19,7 +20,6 @@ const RETURN_BACK_MARKUP = Markup.keyboard([
 const SUBMIT_MARKUP = Markup.inlineKeyboard([
     [Markup.button.callback("Отправить", "btn_submit"), Markup.button.callback("Отмена", "btn_cancel")]
 ]).resize(true)
-
 
 const DEAN_OFFICE = -603452093
 const STUDENT_UNION = -795223750
@@ -34,7 +34,6 @@ function askQuestionSceneGenerate() {
 
     const addresseeHandler = new Composer()
     addresseeHandler.on('text', async (ctx) => {
-
         if (ctx.message.text === constants.BUTTON_TEXT_DEAN ||
             ctx.message.text === constants.BUTTON_TEXT_STUDENT_COUNCIL ||
             ctx.message.text === constants.BUTTON_TEXT_STUDENTS) {
@@ -88,7 +87,7 @@ function askQuestionSceneGenerate() {
         confirmMessageHandler
     )
     // const stage = new Stage([askQuestionScene])
-    //
+    
     // stage.hears(constants.BUTTON_TEXT_BACK, ctx => ctx.scene.enter(constants.SCENE_ID_NEWS))
     // stage.hears(constants.BUTTON_TEXT_MAIN_MENU, ctx => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
 

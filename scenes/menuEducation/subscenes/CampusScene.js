@@ -1,6 +1,7 @@
 const {Scenes: {BaseScene}, Markup} = require('telegraf')
 const buildings = require("../../../model/mockdata/buildings")
 const constants = require("../../../model/constants")
+const defaultAct = require("../../../DefaultAct")
 
 // const CAMPUS_KEYBOARD_MARKUP = Markup.keyboard([[constants.BUTTON_TEXT_CAMPUS_MAP], [constants.BUTTON_TEXT_CAMPUS_LIST], [constants.BUTTON_TEXT_BACK, constants.BUTTON_TEXT_MAIN_MENU]]).resize(true)
 const CAMPUS_KEYBOARD_MARKUP = Markup.keyboard([[constants.BUTTON_TEXT_CAMPUS_MAP], [constants.BUTTON_TEXT_CAMPUS_LIST], [constants.BUTTON_TEXT_MAIN_MENU]]).resize(true)
@@ -54,9 +55,7 @@ function campusSceneGenerate() {
         await ctx.editMessageText('Выбери учебный корпус', NUM_CAMPUS_KEYBOARD)
     })
 
-    // On back
-    // campusScene.hears(constants.BUTTON_TEXT_BACK, (ctx) => ctx.scene.enter(constants.SCENE_ID_EDUCATION))
-    campusScene.hears(constants.BUTTON_TEXT_MAIN_MENU, (ctx) => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
+    defaultAct(campusScene, constants.SCENE_ID_EDUCATION)
 
     return campusScene
 }

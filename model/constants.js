@@ -8,7 +8,6 @@ const constants = {
 
     TEXT_CHAT_NOT_PRIVATE: "Оу сори 😢, не могу показывать данные в группах и каналах 😢",
 
-
     // Sticker ids
     STICKER_ID_HELLO: "CAACAgIAAxkBAAIBQWFqcOBN0lWPlYl-k9HfVLNdnOHOAAKwDAAC1c7YSRgEfwPw-wzfIQQ",
 
@@ -26,12 +25,12 @@ const constants = {
     BUTTON_TEXT_TT_TOMORROW: "Расписание на завтра",
     BUTTON_TEXT_TT_DAY: "Расписание на день",
 
-
     // News
     BUTTON_TEXT_POSTS: "Посты ({0})",
     BUTTON_TEXT_POLLS: "Голосования ({0})",
     BUTTON_TEXT_BROADCAST: "Сделать массовую рассылку",
     BUTTON_TEXT_ASK_QUESTION: "Задать вопрос Q&A",
+    BUTTON_TEXT_FAQ: "Задать вопрос FAQ",
 
     // Education
     BUTTON_TEXT_CAMPUS: "🗺 Кампус",
@@ -61,8 +60,8 @@ const constants = {
     SCENE_ID_ASK_QUESTION: 'ask_question',
     SCENE_ID_POLLS: 'polls',
     SCENE_ID_POSTS: 'posts',
-    SCENE_ID_TIMETABLE: 'timetable'
+    SCENE_ID_TIMETABLE: 'timetable',
+    SCENE_ID_FAQ: 'faq'
 }
-
 
 module.exports = constants

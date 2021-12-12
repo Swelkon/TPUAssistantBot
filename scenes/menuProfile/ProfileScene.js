@@ -1,15 +1,15 @@
 const {Scenes, Markup} = require('telegraf')
 const constants = require("../../model/constants")
 const DataBus = require("../../model/DataBus")
-
+const defaultAct = require("../../DefaultAct")
 
 const PROFILE_MARKUP = Markup.keyboard([
         constants.BUTTON_TEXT_MAIN_MENU
-    ]
-).resize(true)
+    ]).resize(true)
 
 function profileSceneGenerate() {
     const profileScene = new Scenes.BaseScene(constants.SCENE_ID_PROFILE)
+
     profileScene.enter(async (ctx) => {
         const user = DataBus.getUser({ctx: ctx})
         if (user) {
@@ -18,7 +18,8 @@ function profileSceneGenerate() {
             await ctx.reply("Не вижу ваш профиль 🐀")
         }
     })
-    profileScene.hears(constants.BUTTON_TEXT_MAIN_MENU, async (ctx) => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
+    
+    defaultAct(profileScene, constants.SCENE_ID_MAIN_MENU)
 
     return profileScene
 }
