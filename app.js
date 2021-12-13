@@ -1,6 +1,9 @@
 const {Telegraf, Scenes, session, Composer} = require("telegraf")
 require("dotenv/config")
 const constants = require("./model/constants")
+const express = require('express')
+const app = express()
+app.listen(process.env.PORT || 3001)
 
 const startSceneGenerate = require("./scenes/StartScene")
 const mainMenuSceneGenerate = require("./scenes/MainMenuScene")
