@@ -2,8 +2,7 @@ const User = require('./data/User')
 const Api = require('./api/Api')
 const constants = require("./constants");
 const vacancies = require("./mockdata/vacancies");
-const axios = require("axios");
-const Lesson = require("../../model/data/Lesson");
+const Lesson = require("./data/Lesson");
 
 class DataBus {
 
