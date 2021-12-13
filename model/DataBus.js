@@ -144,7 +144,7 @@ class DataBus {
 
     static async getFAQAnswer(text) {
         try {
-            const FAQResponse = Api.retrieveFAQAnswer(text)
+            const FAQResponse = await Api.retrieveFAQAnswer(text)
             console.log(FAQResponse)
 
             const answer = FAQResponse.answers[0].answer.toString();
