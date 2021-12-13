@@ -31,7 +31,7 @@ class DataBus {
                 if (serverResponse.status === Api.STATUS_OK) {
                     console.log("DataBus | retrieveUser() | user retrieved successfully ")
                     const user = serverResponse.data
-                    ctx.session.user = new User({
+                    ctx.session.user.info = new User({
                         last_name: user.last_name,
                         first_name: user.first_name,
                         email: user.email,
@@ -60,7 +60,7 @@ class DataBus {
     }
 
     static getUser({ctx}) {
-        return ctx.session.user
+        return ctx.session.user.info
     }
 
 
