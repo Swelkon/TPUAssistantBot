@@ -6,7 +6,7 @@ const Api = require("../../model/api/Api")
 const buildings = require("../../model/mockdata/buildings")
 const defaultAct = require("../../DefaultAct")
 
-let lessons = []
+// let lessons = []
 
 const TIMETABLE_MARKUP = Markup.keyboard([
     constants.BUTTON_TEXT_TT_TODAY,
@@ -54,15 +54,15 @@ function timetableSceneGenerate() {
             await ctx.reply('Кажется кто-то не авторизован)')
             await ctx.scene.enter(constants.SCENE_ID_START)
         }
-
-        lessons = []
+        //
+        // lessons = []
         retrievedLessons = DataBus.getUserTimetable({ctx: ctx})
         // retrievedLessons = []
         if (retrievedLessons && retrievedLessons.length !== 0) {
-            for (let i = 0; i < retrievedLessons.length; i++) {
-                let l = retrievedLessons[i]
-                lessons.push(new Lesson(l.id, l.start, l.end, l.tip, l.place, l.event, l.disciplina, l.lichnost))
-            }
+            // for (let i = 0; i < retrievedLessons.length; i++) {
+            //     let l = retrievedLessons[i]
+            //     lessons.push(new Lesson(l.id, l.start, l.end, l.tip, l.place, l.event, l.disciplina, l.lichnost))
+            // }
             await ctx.reply('Раздел "Расписание"', TIMETABLE_MARKUP)
             await sendTimetable(numDate, ctx)
         } else {
@@ -106,6 +106,7 @@ function timetableSceneGenerate() {
     timetableScene.hears(constants.BUTTON_TEXT_TT_TOMORROW, async (ctx) => sendTimetable((numDate + 1) % 7, ctx))
     timetableScene.hears(constants.BUTTON_TEXT_TT_DAY, async (ctx) => ctx.reply('Расписание на неделю', WEEKDAYS_MARKUP))
     timetableScene.hears(new RegExp('/where'), async (ctx) => {
+        const lessons = DataBus.getUserTimetable({ctx})
         const lesson = lessons.find((l, i, arr) => l.where === ctx.message.text)
         console.log("Found lesson: ", lesson)
         if (!lesson) {
@@ -137,6 +138,7 @@ function timetableSceneGenerate() {
 }
 
 async function sendTimetable(day, ctx) {
+    const lessons = DataBus.getUserTimetable({ctx})
     let str = `<b>Расписание на ${weekdays[day]}:</b>\n\n`
     for (let time in lessonsTime) {
         str += `${lessonsTime[time]} ${time}\n`

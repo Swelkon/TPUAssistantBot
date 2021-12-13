@@ -3,6 +3,7 @@ const Api = require('./api/Api')
 const constants = require("./constants");
 const vacancies = require("./mockdata/vacancies");
 const axios = require("axios");
+const Lesson = require("../../model/data/Lesson");
 
 class DataBus {
 
@@ -23,8 +24,8 @@ class DataBus {
                 telegram_token: telegram_token
             })
 
-            if (serverResponse.status === Api.STATUS_AUTH_NEEDED){
-                ctx.scene.enter(constants.SCENE_ID_START, )
+            if (serverResponse.status === Api.STATUS_AUTH_NEEDED) {
+                ctx.scene.enter(constants.SCENE_ID_START,)
             } else {
 
                 // If status is OK
@@ -111,7 +112,12 @@ class DataBus {
             const serverResponse = await Api.retrieveTimetable({chat_id, telegram_token})
 
             if (serverResponse.status === Api.STATUS_OK) {
-                const lessons = serverResponse.data
+                const lessons = []
+                const responseLessons = serverResponse.data
+                responseLessons.forEach((l) => {
+                    lessons.push(new Lesson(l.id, l.start, l.end, l.tip, l.place, l.event, l.disciplina, l.lichnost))
+                })
+
                 ctx.session.user.userTimetable = lessons
             }
 
