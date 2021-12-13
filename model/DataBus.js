@@ -145,6 +145,7 @@ class DataBus {
     static async getFAQAnswer(text) {
         try {
             const FAQResponse = Api.retrieveFAQAnswer(text)
+            console.log(FAQResponse)
 
             const answer = FAQResponse.answers[0].answer.toString();
 
@@ -174,8 +175,10 @@ class DataBus {
             console.log(chat_ids)
 
             for (const chat of chat_ids) {
-                if (chat.telegram_chat_id && chat.telegram_chat_id !== 0)
+                if (chat.telegram_chat_id && chat.telegram_chat_id !== 0){
                     await ctx.telegram.forwardMessage(chat.telegram_chat_id, chat_id, message_id)
+                    await sleep(30)
+                }
             }
 
             return serverResponse.status

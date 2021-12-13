@@ -20,7 +20,6 @@ function defaultAct(scene, BACK_SCENE_ID) {
 
         if (FAQResponse.statusCode === Api.STATUS_SERVER_ERROR || answer === 'No good match found in KB.') {
             ctx.reply('Извини, я такое не знаю :(')
-            ctx.replyWithGame()
         } else
             ctx.reply(answer)
 
