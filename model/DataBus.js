@@ -46,7 +46,7 @@ class DataBus {
                         telegram_token: telegram_token
                     })
                     DataBus.retrievePosts()
-                    // DataBus.retrieveUserTimetable({ctx: ctx, chat_id: chat_id, telegram_token: telegram_token})
+                    DataBus.retrieveUserTimetable({ctx: ctx, chat_id: chat_id, telegram_token: telegram_token})
                 }
             }
 
@@ -112,7 +112,7 @@ class DataBus {
 
             if (serverResponse.status === Api.STATUS_OK) {
                 const lessons = serverResponse.data
-                ctx.session.userTimetable = lessons
+                ctx.session.user.userTimetable = lessons
             }
 
             return serverResponse.status
@@ -124,7 +124,7 @@ class DataBus {
     }
 
     static getUserTimetable({ctx}) {
-        return ctx.session.userTimetable
+        return ctx.session.user.userTimetable
     }
 
 
