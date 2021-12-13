@@ -19,8 +19,8 @@ function profileSceneGenerate() {
         }
     })
     
-    defaultAct(profileScene, constants.SCENE_ID_MAIN_MENU)
 
+    defaultAct(profileScene, constants.SCENE_ID_MAIN_MENU)
     return profileScene
 }
 

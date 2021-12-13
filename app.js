@@ -15,6 +15,7 @@ const pollSceneGenerate = require("./scenes/menuNews/subscenes/PollScene")
 const postSceneGenerate = require("./scenes/menuNews/subscenes/PostScene")
 const timetableSceneGenerate = require("./scenes/menuTimetable/TimetableScene")
 const channelSceneFunction = require("./scenes/ChannelScene")
+const vacancySceneGenerate = require("./scenes/menuNews/subscenes/VacancyScene")
 const {log} = require("nodemon/lib/utils");
 
 // Bot init
@@ -34,7 +35,8 @@ const stage = new Scenes.Stage([
     pollSceneGenerate(),
     postSceneGenerate(),
     faqSceneGenerate(),
-    timetableSceneGenerate()
+    timetableSceneGenerate(),
+    vacancySceneGenerate()
 ])
 
 // Middlewares

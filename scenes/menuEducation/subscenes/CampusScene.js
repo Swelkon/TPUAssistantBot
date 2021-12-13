@@ -55,8 +55,8 @@ function campusSceneGenerate() {
         await ctx.editMessageText('Выбери учебный корпус', NUM_CAMPUS_KEYBOARD)
     })
 
-    defaultAct(campusScene, constants.SCENE_ID_EDUCATION)
 
+    defaultAct(campusScene, constants.SCENE_ID_EDUCATION)
     return campusScene
 }
 

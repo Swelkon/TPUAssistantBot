@@ -25,7 +25,6 @@ function postSceneGenerate() {
         //await ctx.scene.enter(constants.SCENE_ID_NEWS)
     })
 
-    defaultAct(postScene, constants.SCENE_ID_NEWS)
 
     postScene.on( "message", async (ctx) => {
         ctx.reply("Отправить пост?", {
@@ -65,6 +64,8 @@ function postSceneGenerate() {
         }
     })
 
+
+    defaultAct(postScene, constants.SCENE_ID_NEWS)
     return  postScene
 }
 

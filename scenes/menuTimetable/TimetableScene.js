@@ -53,7 +53,7 @@ function timetableSceneGenerate() {
         switch (await DataBus.retrieveUserTimetable({
             ctx: ctx,
             chat_id: ctx.chat.id,
-            telegram_token: ctx.session.user.telegram_token
+            telegram_token: DataBus.getUser(ctx).user.telegram_token
         })) {
             case Api.STATUS_OK:
                 lessons = []
@@ -78,8 +78,7 @@ function timetableSceneGenerate() {
         }
 
     })
-    
-    defaultAct(timetableScene, constants.SCENE_ID_MAIN_MENU)
+
     timetableScene.hears(constants.BUTTON_TEXT_TT_TODAY, async (ctx) => sendTimetable(numDate, ctx))
     timetableScene.hears(constants.BUTTON_TEXT_TT_TOMORROW, async (ctx) => sendTimetable((numDate + 1) % 7, ctx))
     timetableScene.hears(constants.BUTTON_TEXT_TT_DAY, async (ctx) => ctx.reply('Расписание на неделю', WEEKDAYS_MARKUP))
@@ -109,6 +108,8 @@ function timetableSceneGenerate() {
         await sendTimetable(weekdays_btn.indexOf(ctx.callbackQuery.data), ctx)
     })
 
+
+    defaultAct(timetableScene, constants.SCENE_ID_MAIN_MENU)
     return timetableScene
 }
 

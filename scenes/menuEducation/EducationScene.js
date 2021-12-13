@@ -16,8 +16,8 @@ function educationSceneGenerate() {
 
     educationScene.hears(constants.BUTTON_TEXT_CAMPUS, async (ctx) => ctx.scene.enter(constants.SCENE_ID_CAMPUS))
 
-    defaultAct(educationScene, constants.SCENE_ID_MAIN_MENU)
 
+    defaultAct(educationScene, constants.SCENE_ID_MAIN_MENU)
     return  educationScene
 }
 

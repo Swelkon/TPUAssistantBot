@@ -45,7 +45,6 @@ function mainMenuSceneGenerate() {
 
     })
 
-    defaultAct(mainMenuScene, constants.SCENE_ID_MAIN_MENU)
     // mainMenuScene.hears(constants.BUTTON_TEXT_NEWS, async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
     mainMenuScene.hears(new RegExp('Новости'), async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
     mainMenuScene.hears(constants.BUTTON_TEXT_TIMETABLE, async (ctx) => ctx.scene.enter(constants.SCENE_ID_TIMETABLE))
@@ -54,6 +53,7 @@ function mainMenuSceneGenerate() {
     mainMenuScene.hears(constants.BUTTON_TEXT_PROFILE, async (ctx) => ctx.scene.enter(constants.SCENE_ID_PROFILE))
     // mainMenuScene.on("message", async (ctx) => ctx.reply("Выберите пункт из меню"))
 
+    defaultAct(mainMenuScene, constants.SCENE_ID_MAIN_MENU)
     return  mainMenuScene
 }
 

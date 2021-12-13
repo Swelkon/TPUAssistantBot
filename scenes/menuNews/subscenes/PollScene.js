@@ -27,7 +27,6 @@ function pollSceneGenerate() {
         // await ctx.scene.enter(constants.SCENE_ID_NEWS)
     })
 
-    defaultAct(pollScene, constants.SCENE_ID_NEWS)
 
     pollScene.on("poll", async (ctx) => {
         ctx.reply("Отправить пост?", {
@@ -69,6 +68,7 @@ function pollSceneGenerate() {
         }
     })
 
+    defaultAct(pollScene, constants.SCENE_ID_NEWS)
     return pollScene
 }
 

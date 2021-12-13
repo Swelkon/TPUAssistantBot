@@ -8,6 +8,15 @@ const constants = {
 
     TEXT_CHAT_NOT_PRIVATE: "Оу сори 😢, не могу показывать данные в группах и каналах 😢",
 
+    TEXT_VACANCY_NUMBER: "Короче, у нас есть <b>{0}</b> работ над которыми Вы сможете поработать😏\n" +
+        "Осталось только выбрать,как нужно их отсортировать🤓:",
+
+    TEXT_VACANCY_LIST_BY_COMPANIES : "Вот, отсортировал вакансии по компаниям🤓",
+    TEXT_VACANCY_LIST_BY_NAMES : "А вот, отсортировал по названиям👀",
+    TEXT_VACANCY_LIST_BY_TAGS : "Вот, список работ по тегам🤪",
+    TEXT_VACANCY_APPLICATION_SUCCESS : "Ухухух, вы приняты)",
+    TEXT_VACANCY_APPLICATION_CANCEL : "Окей, мб найдется что-то еще? 🤞",
+
     // Sticker ids
     STICKER_ID_HELLO: "CAACAgIAAxkBAAIBQWFqcOBN0lWPlYl-k9HfVLNdnOHOAAKwDAAC1c7YSRgEfwPw-wzfIQQ",
 
@@ -43,6 +52,13 @@ const constants = {
     BUTTON_TEXT_STUDENT_COUNCIL: "Студсовет",
     BUTTON_TEXT_STUDENTS: "Студенты",
 
+    // Show vacancies
+    // Button texts
+    BUTTON_TEXT_VACANCIES: "Вакансии ({0})",
+    BUTTON_TEXT_SORT_BY_COMPANIES : "Сортировать по компаниям",
+    BUTTON_TEXT_SORT_BY_POSITIONS : "Сортировать по вакансиям",
+    BUTTON_TEXT_SORT_BY_TAGS : "Сортировать по тегам",
+
     // Else
     BUTTON_TEXT_BACK: "Назад",
     BUTTON_TEXT_MAIN_MENU: "⚙️ Главное меню",
@@ -61,7 +77,9 @@ const constants = {
     SCENE_ID_POLLS: 'polls',
     SCENE_ID_POSTS: 'posts',
     SCENE_ID_TIMETABLE: 'timetable',
-    SCENE_ID_FAQ: 'faq'
+    SCENE_ID_FAQ: 'faq',
+    SCENE_ID_VACANCY: 'vacancy',
+
 }
 
 module.exports = constants

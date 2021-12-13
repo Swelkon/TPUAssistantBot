@@ -1,6 +1,8 @@
 const User = require('./data/User')
 const Api = require('./api/Api')
 const constants = require("./constants");
+const vacancies = require("./mockdata/vacancies");
+const axios = require("axios");
 
 class DataBus {
 
@@ -10,6 +12,8 @@ class DataBus {
 
     static polls = []
     static posts = []
+    // static vacancies = []
+    static vacancies = vacancies
     static allowedChannels = [-1001614453874]
 
     static async retrieveUser({ctx, chat_id, telegram_token}) {
@@ -117,15 +121,39 @@ class DataBus {
     }
 
 
-
-
-
     static updateTextPosts({posts}) {
         this.posts = posts
     }
 
     static updatePolls({polls}) {
         this.polls = polls
+    }
+
+
+    static async getFAQAnswer(text) {
+        try {
+            const response = await axios.post('https://tpuassistant.azurewebsites.net/qnamaker/knowledgebases/0091b6d8-4f85-457f-a453-151ae6ccb8b5/generateAnswer',
+                {'question': text}, {
+                    headers: {
+                        'Authorization': 'EndpointKey 82746f7e-aef7-4477-9042-d7598c9e436c',
+                        'Content-Type': 'application/json'
+                    }
+                })
+
+
+            const answer = response.data.answers[0].answer.toString();
+
+            return {
+                statusCode: Api.STATUS_OK,
+                data: answer
+            }
+
+        } catch (e) {
+            return {
+                statusCode: Api.STATUS_SERVER_ERROR,
+                data: null
+            }
+        }
     }
 
 }

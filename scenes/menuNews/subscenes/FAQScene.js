@@ -2,6 +2,7 @@ const axios = require("axios")
 const { Scenes } = require('telegraf')
 const constants = require("../../../model/constants")
 const defaultAct = require("../../../DefaultAct")
+const DataBus = require("../../../model/DataBus");
 
 async function requestApi(ctx) {
     axios.post('https://tpuassistant.azurewebsites.net/qnamaker/knowledgebases/0091b6d8-4f85-457f-a453-151ae6ccb8b5/generateAnswer',
@@ -21,14 +22,21 @@ async function requestApi(ctx) {
     })
 }
 
+const topics = ["стипендии", "работа деканата", "и т.д."]
+
 function faqSceneGenerate() {
     const faqScene = new Scenes.BaseScene( constants.SCENE_ID_FAQ )
 
     faqScene.enter( async (ctx) => {
         await ctx.reply("Можешь задать мне вопрос ;)")
+        let msg = "Я могу помочь с некоторыми вопросами про:"
+        topics.forEach((topic) => {
+            msg += `- ${topic};\n`
+        })
+        await ctx.reply(msg)
 
-        faqScene.on("message", async (ctx) => requestApi(ctx))
     })
+
 
     defaultAct(faqScene, constants.SCENE_ID_NEWS)
     return faqScene
