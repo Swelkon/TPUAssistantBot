@@ -16,6 +16,8 @@ function profileSceneGenerate() {
             await ctx.reply(`Имя: ${user.first_name}\nФамилия: ${user.last_name}\nПочта ТПУ: ${user.email}\nГруппа: ${user.gruppa}\nШкола: ${user.department}\nНаправление: ${user.direction_of_training}\nФорма обучения: ${user.form_of_education}\nТип финансирования: ${user.type_of_financing}`, PROFILE_MARKUP)
         } else {
             await ctx.reply("Не вижу ваш профиль 🐀")
+            await ctx.reply("Попробуйте перезайти через почту ТПУ")
+            await ctx.scene.enter(constants.SCENE_ID_START)
         }
     })
     

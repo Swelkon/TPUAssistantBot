@@ -25,6 +25,9 @@ function postSceneGenerate() {
         //await ctx.scene.enter(constants.SCENE_ID_NEWS)
     })
 
+    postScene.hears(constants.BUTTON_TEXT_MAIN_MENU, async (ctx) => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
+    postScene.hears(constants.BUTTON_TEXT_BACK, async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
+
 
     postScene.on( "message", async (ctx) => {
         ctx.reply("Отправить пост?", {
@@ -38,30 +41,30 @@ function postSceneGenerate() {
     } )
 
     postScene.on("callback_query", async (ctx) => {
-        switch (ctx.callbackQuery?.data){
-            case 'btn_yes':
-                ctx.answerCbQuery()
-
-                // Handle ServerResponse.status
-                switch (await DataBus.submitPost({
-                    from_chat_id: ctx.scene.state.from_chat_id,
-                    message_id: ctx.scene.state.message_id,
-                    date: ctx.scene.state.date,
-                    is_poll: ctx.scene.state.is_poll
-                })) {
-                    case Api.STATUS_OK:
-                        await ctx.reply("Пост сохранен")
-                        break
-                    default:
-                        await ctx.reply("Не получилось опубликовать пост(")
-                        break
-                }
-
-                break
-            default:
-                await ctx.reply("Отправка отменена")
-                // await ctx.answerCbQuery(ctx.callbackQuery)
+        ctx.answerCbQuery()
+        if (ctx.callbackQuery?.data === 'btn_no') {
+            await ctx.reply("Отправка отменена")
+            return
         }
+
+        if (ctx.callbackQuery?.data === 'btn_yes') {
+            // Handle ServerResponse.status
+            if (await DataBus.submitPost({
+                from_chat_id: ctx.scene.state.from_chat_id,
+                message_id: ctx.scene.state.message_id,
+                date: ctx.scene.state.date,
+                is_poll: ctx.scene.state.is_poll
+            }) === Api.STATUS_OK) {
+
+                DataBus.sendMessageToOthers({ctx: ctx, chat_id: ctx.chat.id, telegram_token: DataBus.getUser({ctx}).telegram_token, message_id: ctx.scene.state.message_id})
+                await ctx.reply("Пост сохранен")
+
+            } else {
+                await ctx.reply("Не получилось опубликовать пост(")
+            }
+
+        }
+
     })
 
 

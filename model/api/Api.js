@@ -1,16 +1,20 @@
 const axios = require("axios");
 const ChannelPost = require('../data/ChannelPost')
 const ServerRequest = require("./ServerRequest");
+require("dotenv/config")
 
 class Api {
 
-    static SERVER_URL = "http://85.143.78.60:3000"
+    static MODE = process.env.MODE
+    static SERVER_URL = this.MODE === 'prod'? process.env.BASE_PROD_URL: process.env.BASE_DEV_URL
+    static FAQ_URL = process.env.FAQ_URL
     static STATUS_OK = 0
     static STATUS_SUCCESSFUL_REGISTRATION = 11
     static STATUS_SUCCESSFUL_AUTHORIZATION = 12
     static STATUS_QUERY_PARAMS_NOT_GIVEN = 1
     static STATUS_USER_NOT_FOUND = 2
     static STATUS_SERVER_ERROR = 10
+    static STATUS_AUTH_NEEDED = 401
 
 
     // Authorize method
@@ -42,6 +46,24 @@ class Api {
         const request = new ServerRequest(chat_id, telegram_token)
         const response = await axios.post(`${Api.SERVER_URL}/rasp`, request)
         console.log(response.data)
+        return response.data
+    }
+
+    static async retrieveTelegramChatIds({chat_id, telegram_token}){
+        const request = new ServerRequest(chat_id, telegram_token)
+        const response = await axios.post(`${Api.SERVER_URL}/users/telegram`, request)
+        console.log(response.data)
+        return response.data
+    }
+
+    static async retrieveFAQAnswer(text){
+        const response = await axios.post(`${this.FAQ_URL}/generateAnswer`,
+            {'question': text}, {
+                headers: {
+                    'Authorization': 'EndpointKey 82746f7e-aef7-4477-9042-d7598c9e436c',
+                    'Content-Type': 'application/json'
+                }
+            })
         return response.data
     }
 

@@ -7,7 +7,7 @@ const axios = require("axios");
 class DataBus {
 
     static get numOfNews() {
-        return DataBus.polls.length + DataBus.posts.length
+        return DataBus.polls.length + DataBus.posts.length + DataBus.vacancies.length
     }
 
     static polls = []
@@ -23,26 +23,33 @@ class DataBus {
                 telegram_token: telegram_token
             })
 
-            // If status is OK
-            if (serverResponse.status === Api.STATUS_OK) {
-                console.log("DataBus | retrieveUser() | user retrieved successfully ")
-                const user = serverResponse.data
-                ctx.session.user = new User({
-                    last_name: user.last_name,
-                    first_name: user.first_name,
-                    email: user.email,
-                    lichnost_id: user.lichnost_id,
-                    user_id: user.user_id,
-                    chat_id: chat_id,
-                    gruppa: user.gruppa,
-                    department: user.department,
-                    direction_of_training: user.direction_of_training,
-                    form_of_education: user.form_of_education,
-                    type_of_financing: user.type_of_financing,
-                    telegram_token: telegram_token
-                })
-                DataBus.retrievePosts()
+            if (serverResponse.status === Api.STATUS_AUTH_NEEDED){
+                ctx.scene.enter(constants.SCENE_ID_START, )
+            } else {
+
+                // If status is OK
+                if (serverResponse.status === Api.STATUS_OK) {
+                    console.log("DataBus | retrieveUser() | user retrieved successfully ")
+                    const user = serverResponse.data
+                    ctx.session.user = new User({
+                        last_name: user.last_name,
+                        first_name: user.first_name,
+                        email: user.email,
+                        lichnost_id: user.lichnost_id,
+                        user_id: user.user_id,
+                        chat_id: chat_id,
+                        gruppa: user.gruppa,
+                        department: user.department,
+                        direction_of_training: user.direction_of_training,
+                        form_of_education: user.form_of_education,
+                        type_of_financing: user.type_of_financing,
+                        telegram_token: telegram_token
+                    })
+                    DataBus.retrievePosts()
+                    // DataBus.retrieveUserTimetable({ctx: ctx, chat_id: chat_id, telegram_token: telegram_token})
+                }
             }
+
 
             return serverResponse.status
         } catch (e) {
@@ -132,16 +139,9 @@ class DataBus {
 
     static async getFAQAnswer(text) {
         try {
-            const response = await axios.post('https://tpuassistant.azurewebsites.net/qnamaker/knowledgebases/0091b6d8-4f85-457f-a453-151ae6ccb8b5/generateAnswer',
-                {'question': text}, {
-                    headers: {
-                        'Authorization': 'EndpointKey 82746f7e-aef7-4477-9042-d7598c9e436c',
-                        'Content-Type': 'application/json'
-                    }
-                })
+            const FAQResponse = Api.retrieveFAQAnswer(text)
 
-
-            const answer = response.data.answers[0].answer.toString();
+            const answer = FAQResponse.answers[0].answer.toString();
 
             return {
                 statusCode: Api.STATUS_OK,
@@ -156,6 +156,35 @@ class DataBus {
         }
     }
 
+    static async sendMessageToOthers({ctx, chat_id, telegram_token, message_id}) {
+
+        try {
+            const serverResponse = await Api.retrieveTelegramChatIds({chat_id, telegram_token})
+
+            let chat_ids = []
+
+            if (serverResponse.status === Api.STATUS_OK) {
+                chat_ids = serverResponse.data
+            }
+            console.log(chat_ids)
+
+            for (const chat of chat_ids) {
+                if (chat.telegram_chat_id && chat.telegram_chat_id !== 0)
+                    await ctx.telegram.forwardMessage(chat.telegram_chat_id, chat_id, message_id)
+            }
+
+            return serverResponse.status
+
+        } catch (e) {
+            console.log("DataBus | sendMessageToOthers() | Error! Could not sent message", e)
+            return Api.STATUS_SERVER_ERROR
+        }
+    }
+
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 module.exports = DataBus

@@ -28,6 +28,9 @@ function pollSceneGenerate() {
     })
 
 
+    pollScene.hears(constants.BUTTON_TEXT_MAIN_MENU, async (ctx) => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
+    pollScene.hears(constants.BUTTON_TEXT_BACK, async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
+
     pollScene.on("poll", async (ctx) => {
         ctx.reply("Отправить пост?", {
             reply_to_message_id: ctx.message.message_id,
@@ -41,31 +44,61 @@ function pollSceneGenerate() {
     })
 
     pollScene.on("callback_query", async (ctx) => {
-        switch (ctx.callbackQuery?.data) {
-            case 'btn_yes':
-                ctx.answerCbQuery()
-
-                // Handle ServerResponse.status
-                switch (await DataBus.submitPost({
-                    from_chat_id: ctx.scene.state.from_chat_id,
-                    message_id: ctx.scene.state.message_id,
-                    date: ctx.scene.state.date,
-                    is_poll: ctx.scene.state.is_poll
-                })) {
-                    case Api.STATUS_OK:
-                        await ctx.reply("Голосование отправлено")
-                        break
-                    default:
-                        await ctx.reply("Не смог сохранить ваше голосование(")
-                        break
-                }
-                break
-
-            default:
-                ctx.answerCbQuery()
-                await ctx.reply("Отправка отменена")
-            //await ctx.answerCbQuery(ctx.callbackQuery)
+        ctx.answerCbQuery()
+        if (ctx.callbackQuery?.data === 'btn_no') {
+            await ctx.reply("Отправка отменена")
+            return
         }
+
+        if (ctx.callbackQuery?.data === 'btn_yes') {
+            // Handle ServerResponse.status
+            if (await DataBus.submitPost({
+                from_chat_id: ctx.scene.state.from_chat_id,
+                message_id: ctx.scene.state.message_id,
+                date: ctx.scene.state.date,
+                is_poll: ctx.scene.state.is_poll
+            }) === Api.STATUS_OK) {
+
+                DataBus.sendMessageToOthers({
+                    ctx: ctx,
+                    chat_id: ctx.chat.id,
+                    telegram_token: DataBus.getUser({ctx}).telegram_token,
+                    message_id: ctx.scene.state.message_id
+                })
+                await ctx.reply("Голосование отправлено")
+
+            } else {
+                await ctx.reply("Не смог сохранить ваше голосование(")
+            }
+
+
+        }
+        // switch (ctx.callbackQuery?.data) {
+        //     case 'btn_yes':
+        //         ctx.answerCbQuery()
+        //
+        //         // Handle ServerResponse.status
+        //         switch (await DataBus.submitPost({
+        //             from_chat_id: ctx.scene.state.from_chat_id,
+        //             message_id: ctx.scene.state.message_id,
+        //             date: ctx.scene.state.date,
+        //             is_poll: ctx.scene.state.is_poll
+        //         })) {
+        //             case Api.STATUS_OK:
+        //                 DataBus.sendMessageToOthers({ctx: ctx, telegram_token: DataBus.getUser({ctx})})
+        //                 await ctx.reply("Голосование отправлено")
+        //                 break
+        //             default:
+        //                 await ctx.reply("Не смог сохранить ваше голосование(")
+        //                 break
+        //         }
+        //         break
+        //
+        //     default:
+        //         ctx.answerCbQuery()
+        //         await ctx.reply("Отправка отменена")
+        //     //await ctx.answerCbQuery(ctx.callbackQuery)
+        // }
     })
 
     defaultAct(pollScene, constants.SCENE_ID_NEWS)

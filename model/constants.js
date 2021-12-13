@@ -54,7 +54,7 @@ const constants = {
 
     // Show vacancies
     // Button texts
-    BUTTON_TEXT_VACANCIES: "Вакансии ({0})",
+    BUTTON_TEXT_VACANCIES: "Вакансии ({0}) (Тест)",
     BUTTON_TEXT_SORT_BY_COMPANIES : "Сортировать по компаниям",
     BUTTON_TEXT_SORT_BY_POSITIONS : "Сортировать по вакансиям",
     BUTTON_TEXT_SORT_BY_TAGS : "Сортировать по тегам",
