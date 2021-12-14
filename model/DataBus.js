@@ -45,8 +45,6 @@ class DataBus {
                         type_of_financing: user.type_of_financing,
                         telegram_token: telegram_token
                     })
-                    DataBus.retrievePosts()
-                    DataBus.retrieveUserTimetable({ctx: ctx, chat_id: chat_id, telegram_token: telegram_token})
                 }
             }
 

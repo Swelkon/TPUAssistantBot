@@ -1,4 +1,4 @@
-const { Scenes, Markup } = require('telegraf')
+const {Scenes, Markup} = require('telegraf')
 const constants = require("../model/constants")
 const format = require("string-format")
 const DataBus = require("../model/DataBus")
@@ -14,8 +14,8 @@ format.extend(String.prototype, {})
 //     constants.BUTTON_TEXT_PROFILE,
 // ]).resize(true)
 
-function getMainMenuMarkup(){
-    if (DataBus.numOfNews === 0){
+function getMainMenuMarkup() {
+    if (DataBus.numOfNews === 0) {
         return Markup.keyboard([
             constants.BUTTON_TEXT_ZERO_NEWS,
             constants.BUTTON_TEXT_TIMETABLE,
@@ -35,13 +35,22 @@ function getMainMenuMarkup(){
 }
 
 function mainMenuSceneGenerate() {
-    const  mainMenuScene = new Scenes.BaseScene( constants.SCENE_ID_MAIN_MENU )
+    const mainMenuScene = new Scenes.BaseScene(constants.SCENE_ID_MAIN_MENU)
 
-    mainMenuScene.enter( async (ctx) => {
+    mainMenuScene.enter(async (ctx) => {
 
         await ctx.reply(constants.TEXT_MAIN_MENU, {
             reply_markup: getMainMenuMarkup().reply_markup
         })
+
+        const user = DataBus.getUser({ctx})
+        DataBus.retrievePosts()
+        DataBus.retrieveUserTimetable({
+                ctx: ctx,
+                chat_id: user.chat_id,
+                telegram_token: user.telegram_token
+            }
+        )
 
     })
 
@@ -54,7 +63,7 @@ function mainMenuSceneGenerate() {
     // mainMenuScene.on("message", async (ctx) => ctx.reply("Выберите пункт из меню"))
 
     defaultAct(mainMenuScene, constants.SCENE_ID_MAIN_MENU)
-    return  mainMenuScene
+    return mainMenuScene
 }
 
-module.exports =  mainMenuSceneGenerate
+module.exports = mainMenuSceneGenerate
