@@ -27,12 +27,12 @@ async function sortByCompany (ctx) {
 
 async function sortByVacancy(ctx) {
     const shortList = getListVacancy()
-    await ctx.reply(constants.TEXT_VACANCY_LIST_BY_COMPANIES, getMarkupButtonList('vacancy', shortList))
+    await ctx.reply(constants.TEXT_VACANCY_LIST_BY_NAMES, getMarkupButtonList('vacancy', shortList))
 }
 
 async function sortByTags(ctx) {
     const shortList = getListTags()
-    await ctx.reply(constants.TEXT_VACANCY_LIST_BY_COMPANIES, getMarkupButtonList('tags', shortList))
+    await ctx.reply(constants.TEXT_VACANCY_LIST_BY_TAGS, getMarkupButtonList('tags', shortList))
 }
 
 // Data-prepare functions
