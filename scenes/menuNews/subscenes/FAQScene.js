@@ -6,14 +6,16 @@ const FAQ_MARKUP = Markup.keyboard([
     [constants.BUTTON_TEXT_BACK, constants.BUTTON_TEXT_MAIN_MENU]
 ]).resize(true)
 
-const topics = ["стипендии", "работа деканата", "и т.д."]
+const topics = ["стипендии", "работа деканата", "расписание преподавателей",
+    "сроки сессий", "сроки каникул", "оформление академ отпуска",
+    "получение справок", "и т.д."]
 
 function faqSceneGenerate() {
     const faqScene = new Scenes.BaseScene( constants.SCENE_ID_FAQ )
 
     faqScene.enter( async (ctx) => {
         await ctx.reply("Можешь задать мне вопрос ;)", FAQ_MARKUP)
-        let msg = "Я могу помочь с некоторыми вопросами про:"
+        let msg = "Я могу помочь с некоторыми вопросами про:\n"
         topics.forEach((topic) => {
             msg += `- ${topic};\n`
         })
