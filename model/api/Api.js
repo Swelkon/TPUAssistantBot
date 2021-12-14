@@ -8,6 +8,7 @@ class Api {
     static MODE = process.env.MODE
     static SERVER_URL = this.MODE === 'prod'? process.env.BASE_PROD_URL: process.env.BASE_DEV_URL
     static FAQ_URL = process.env.FAQ_URL
+    static FAQ_ENDPOINT_KEY = process.env.ENDPOINT_KEY
     static STATUS_OK = 0
     static STATUS_SUCCESSFUL_REGISTRATION = 11
     static STATUS_SUCCESSFUL_AUTHORIZATION = 12
@@ -60,7 +61,7 @@ class Api {
         const response = await axios.post(`${this.FAQ_URL}/generateAnswer`,
             {'question': text}, {
                 headers: {
-                    'Authorization': 'EndpointKey 82746f7e-aef7-4477-9042-d7598c9e436c',
+                    'Authorization': `EndpointKey ${this.FAQ_ENDPOINT_KEY}`,
                     'Content-Type': 'application/json'
                 }
             })
