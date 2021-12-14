@@ -14,7 +14,7 @@ async function showVacancy(ctx) {
 
         const filteredList = getVacanciesSorted(key, value)
 
-        let msg = "💼 Searched by:`{0}` <b>{1}</b>:\n".format(key, value);
+        let msg = "💼 Поиск по: `{0}` <b>{1}</b>:\n".format(key, value);
         filteredList.forEach( record => {
             msg += "👉🏼 <b>{0}</b>\n".format(record['vacancy'])
             msg += "\t\t\t\t📍 Компания: {0}\n".format(record['company'])
