@@ -144,6 +144,7 @@ class DataBus {
         try {
             const serverResponse = await Api.retrieveFAQAnswer(text)
             const FAQResponse = serverResponse.data
+            console.log(serverResponse)
             console.log(FAQResponse)
 
             const answer = FAQResponse.answers[0].answer.toString();

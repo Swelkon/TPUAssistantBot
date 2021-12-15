@@ -6,7 +6,7 @@ require("dotenv/config")
 class Api {
 
     static MODE = process.env.MODE
-    static SERVER_URL = this.MODE === 'prod'? process.env.BASE_PROD_URL: process.env.BASE_DEV_URL
+    static SERVER_URL = this.MODE === 'prod' ? process.env.BASE_PROD_URL : process.env.BASE_DEV_URL
     static FAQ_URL = process.env.FAQ_URL
     static FAQ_ENDPOINT_KEY = process.env.ENDPOINT_KEY
     static STATUS_OK = 0
@@ -37,34 +37,33 @@ class Api {
         return response.data
     }
 
-    static async retrievePosts(){
+    static async retrievePosts() {
         const response = await axios.get(`${Api.SERVER_URL}/channels/posts`)
         console.log(response.data)
         return response.data
     }
 
-    static async retrieveTimetable({chat_id, telegram_token}){
+    static async retrieveTimetable({chat_id, telegram_token}) {
         const request = new ServerRequest(chat_id, telegram_token)
         const response = await axios.post(`${Api.SERVER_URL}/rasp`, request)
         console.log(response.data)
         return response.data
     }
 
-    static async retrieveTelegramChatIds({chat_id, telegram_token}){
+    static async retrieveTelegramChatIds({chat_id, telegram_token}) {
         const request = new ServerRequest(chat_id, telegram_token)
         const response = await axios.post(`${Api.SERVER_URL}/users/telegram`, request)
         console.log(response.data)
         return response.data
     }
 
-    static async retrieveFAQAnswer(text){
-            const response = await axios.post(`${Api.SERVER_URL}/questions/faq`,
-                {'question': text}, {
-                })
-            return response.data
-        }
+    static async retrieveFAQAnswer(text) {
+        const response = await axios.post(`${Api.SERVER_URL}/questions/faq`,
+            {'question': text}, {})
+        return response.data
+    }
 
-        //TODO: Раскомментировать для тестинга
+    //TODO: Раскомментировать для тестинга
     // static async retrieveFAQAnswer(text){
     //     const response = await axios.post(`${this.FAQ_URL}/generateAnswer`,
     //         {'question': text}, {
