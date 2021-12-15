@@ -62,9 +62,10 @@ class DataBus {
     }
 
 
-    static async submitPost({from_chat_id, message_id, date, is_poll}) {
+    static async submitPost({telegram_token, from_chat_id, message_id, date, is_poll}) {
         try {
             const serverResponse = await Api.submitPost({
+                telegram_token: telegram_token,
                 from_chat_id: from_chat_id,
                 message_id: message_id,
                 date: date,
@@ -78,6 +79,7 @@ class DataBus {
 
             return serverResponse.status
         } catch (e) {
+            console.log(e)
             return Api.STATUS_SERVER_ERROR
         }
 

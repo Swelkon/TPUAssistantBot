@@ -1,7 +1,6 @@
 const {Scenes, Markup} = require('telegraf')
 const constants = require("../../../model/constants")
 const DataBus = require("../../../model/DataBus")
-const channelSceneFunction = require("../../ChannelScene")
 const Api = require("../../../model/api/Api")
 // const Api = require("../model/api/Api")
 const defaultAct = require("../../../DefaultAct")
@@ -18,7 +17,12 @@ function pollSceneGenerate() {
             console.log("PollScene: trying to forward polls")
             for (const poll of DataBus.polls) {
                 console.log(poll)
-                await ctx.telegram.forwardMessage(ctx.chat.id, poll.from_chat_id, poll.message_id)
+                try {
+                    await ctx.telegram.forwardMessage(ctx.chat.id, poll.from_chat_id, poll.message_id)
+
+                } catch (e) {
+                    console.log(e)
+                }
                 await sleep(50)
             }
             await ctx.reply("Можете создать свое собственное голосование, отпавьте его мне", POLL_MARKUP)
@@ -53,6 +57,7 @@ function pollSceneGenerate() {
         if (ctx.callbackQuery?.data === 'btn_yes') {
             // Handle ServerResponse.status
             if (await DataBus.submitPost({
+                telegram_token: DataBus.getUser({ctx}).telegram_token,
                 from_chat_id: ctx.scene.state.from_chat_id,
                 message_id: ctx.scene.state.message_id,
                 date: ctx.scene.state.date,
@@ -73,32 +78,7 @@ function pollSceneGenerate() {
 
 
         }
-        // switch (ctx.callbackQuery?.data) {
-        //     case 'btn_yes':
-        //         ctx.answerCbQuery()
-        //
-        //         // Handle ServerResponse.status
-        //         switch (await DataBus.submitPost({
-        //             from_chat_id: ctx.scene.state.from_chat_id,
-        //             message_id: ctx.scene.state.message_id,
-        //             date: ctx.scene.state.date,
-        //             is_poll: ctx.scene.state.is_poll
-        //         })) {
-        //             case Api.STATUS_OK:
-        //                 DataBus.sendMessageToOthers({ctx: ctx, telegram_token: DataBus.getUser({ctx})})
-        //                 await ctx.reply("Голосование отправлено")
-        //                 break
-        //             default:
-        //                 await ctx.reply("Не смог сохранить ваше голосование(")
-        //                 break
-        //         }
-        //         break
-        //
-        //     default:
-        //         ctx.answerCbQuery()
-        //         await ctx.reply("Отправка отменена")
-        //     //await ctx.answerCbQuery(ctx.callbackQuery)
-        // }
+
     })
 
     defaultAct(pollScene, constants.SCENE_ID_NEWS)
