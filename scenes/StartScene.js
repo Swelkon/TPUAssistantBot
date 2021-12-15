@@ -14,9 +14,14 @@ function startSceneGenerate() {
         // await ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
         const telegram_token = ctx.message.text.split(" ")[1]
         const chat_id = ctx.chat.id
+        const user = DataBus.getUser({ctx})
 
         // Handle ServerResponse.status
-        switch (await DataBus.retrieveUser({ctx: ctx, chat_id: chat_id, telegram_token: DataBus.getUser({ctx}).telegram_token})) {
+        switch (await DataBus.retrieveUser({
+            ctx: ctx,
+            chat_id: chat_id,
+            telegram_token: user ? user.telegram_token : telegram_token
+        })) {
             case Api.STATUS_OK:
                 await ctx.replyWithSticker(constants.STICKER_ID_HELLO)
                 await ctx.reply(constants.TEXT_INTRODUCTION)
