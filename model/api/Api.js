@@ -58,23 +58,22 @@ class Api {
     }
 
     static async retrieveFAQAnswer(text){
-        const response = await axios.post(`${this.FAQ_URL}/generateAnswer`,
-            {'question': text}, {
-                headers: {
-                    'Authorization': `EndpointKey ${this.FAQ_ENDPOINT_KEY}`,
-                    'Content-Type': 'application/json'
-                }
-            })
-        return response.data
-    }
+            const response = await axios.post(`${Api.SERVER_URL}/questions/faq`,
+                {'question': text}, {
+                })
+            return response.data
+        }
 
-    // static async getPolls(){
-    //     const response = await axios.get(`${Api.SERVER_URL}/channels/polls`)
+        //TODO: Раскомментировать для тестинга
+    // static async retrieveFAQAnswer(text){
+    //     const response = await axios.post(`${this.FAQ_URL}/generateAnswer`,
+    //         {'question': text}, {
+    //             headers: {
+    //                 'Authorization': `EndpointKey ${this.FAQ_ENDPOINT_KEY}`,
+    //                 'Content-Type': 'application/json'
+    //             }
+    //         })
     //     return response.data
-    // }
-
-    // static getAuthorizationUrl({chat_id, access_token}) {
-    //     return `${Api.SERVER_URL}/users/authorize?chat_id=${chat_id}&access_token=${access_token}`
     // }
 
     static getRegistrationURL({chat_id}) {
