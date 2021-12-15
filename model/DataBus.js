@@ -142,20 +142,21 @@ class DataBus {
 
     static async getFAQAnswer(text) {
         try {
-            const FAQResponse = await Api.retrieveFAQAnswer(text)
+            const serverResponse = await Api.retrieveFAQAnswer(text)
+            const FAQResponse = serverResponse.data
             console.log(FAQResponse)
 
             const answer = FAQResponse.answers[0].answer.toString();
 
             return {
-                statusCode: Api.STATUS_OK,
-                data: answer
+                status: serverResponse.status,
+                answer: answer
             }
 
         } catch (e) {
             return {
-                statusCode: Api.STATUS_SERVER_ERROR,
-                data: null
+                status: Api.STATUS_SERVER_ERROR,
+                answer: null
             }
         }
     }

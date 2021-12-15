@@ -15,10 +15,9 @@ function defaultAct(scene, BACK_SCENE_ID) {
     scene.hears(new RegExp('вопрос', 'i'), async (ctx) => ctx.scene.enter(constants.SCENE_ID_FAQ))
 
     scene.on('text', async (ctx) => {
-        const FAQResponse = await DataBus.getFAQAnswer(ctx.message.text)
-        const answer = FAQResponse.data
+        const {status, answer} = await DataBus.getFAQAnswer(ctx.message.text)
 
-        if (FAQResponse.statusCode === Api.STATUS_SERVER_ERROR || answer === 'No good match found in KB.') {
+        if (status !== Api.STATUS_OK || answer === 'No good match found in KB.') {
             ctx.reply('Извини, я такое не знаю :(')
         } else
             ctx.reply(answer)
