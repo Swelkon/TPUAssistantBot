@@ -62,6 +62,9 @@ bot.use((ctx, next) => ctx.chat && ctx.chat.type === "private" ? next() : consol
 bot.start(async (ctx) => {
     await ctx.scene.enter(constants.SCENE_ID_START)
 })
+bot.on('message', async (ctx) => {
+    await ctx.reply('Нажмите на /start для авторизации')
+})
 
 
 bot.launch()

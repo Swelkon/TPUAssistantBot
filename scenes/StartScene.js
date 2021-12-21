@@ -13,14 +13,15 @@ function startSceneGenerate() {
     startScene.enter(async (ctx) => {
         // await ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
         const telegram_token = ctx.message.text.split(" ")[1]
-        const chat_id = ctx.chat.id
-        const user = DataBus.getUser({ctx})
+        // const chat_id = ctx.chat.id
+        // const user = DataBus.getUser({ctx})
 
         // Handle ServerResponse.status
         switch (await DataBus.retrieveUser({
             ctx: ctx,
-            chat_id: chat_id,
-            telegram_token: user ? user.telegram_token : telegram_token
+            chat_id: ctx.chat.id,
+            // telegram_token: user ? user.telegram_token : telegram_token
+            telegram_token: telegram_token
         })) {
             case Api.STATUS_OK:
                 await ctx.replyWithSticker(constants.STICKER_ID_HELLO)
@@ -32,7 +33,7 @@ function startSceneGenerate() {
             //     await ctx.scene.reenter()
             default:
                 await ctx.reply("Вы у нас в первый раз? Авторизируйтесь через почту ТПУ!", REMOVE_MARKUP)
-                await ctx.reply(Api.getRegistrationURL({chat_id: chat_id}))
+                await ctx.reply(Api.getRegistrationURL({chat_id: ctx.chat.id}))
         }
     })
 
