@@ -34,6 +34,7 @@ function pollSceneGenerate() {
 
     pollScene.hears(constants.BUTTON_TEXT_MAIN_MENU, async (ctx) => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
     pollScene.hears(constants.BUTTON_TEXT_BACK, async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
+    pollScene.hears(constants.BUTTON_TEXT_START, async (ctx) => ctx.scene.enter(constants.SCENE_ID_START))
 
     pollScene.on("poll", async (ctx) => {
         ctx.reply("Отправить пост?", {

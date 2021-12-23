@@ -3,7 +3,7 @@ const DataBus = require("./model/DataBus");
 const Api = require("./model/api/Api");
 
 function defaultAct(scene, BACK_SCENE_ID) {
-    scene.hears("/start", async (ctx) => ctx.scene.enter(constants.SCENE_ID_START))
+    scene.hears(constants.BUTTON_TEXT_START, async (ctx) => ctx.scene.enter(constants.SCENE_ID_START))
     scene.hears(constants.BUTTON_TEXT_MAIN_MENU, async (ctx) => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
     scene.hears(constants.BUTTON_TEXT_BACK, async (ctx) => ctx.scene.enter(BACK_SCENE_ID))
 

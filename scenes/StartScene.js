@@ -24,6 +24,12 @@ function startSceneGenerate() {
             telegram_token: telegram_token
         })) {
             case Api.STATUS_OK:
+                DataBus.retrieveStudentInfo({
+                    ctx: ctx,
+                    chat_id: ctx.chat.id,
+                    // telegram_token: user ? user.telegram_token : telegram_token
+                    telegram_token: telegram_token
+                })
                 await ctx.replyWithSticker(constants.STICKER_ID_HELLO)
                 await ctx.reply(constants.TEXT_INTRODUCTION)
                 await ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)

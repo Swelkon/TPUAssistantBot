@@ -4,28 +4,18 @@ class User {
                     last_name,
                     first_name,
                     email,
-                    lichnost_id,
-                    user_id,
                     chat_id,
-                    gruppa,
-                    department,
-                    direction_of_training,
-                    form_of_education,
-                    type_of_financing,
+                    is_student,
                     telegram_token,
                 }) {
+
         this.last_name = last_name
         this.first_name = first_name
         this.email = email
-        this.lichnost_id = lichnost_id
-        this.user_id = user_id
         this.chat_id = chat_id
+        this.is_student = is_student
         this.telegram_token = telegram_token
-        this.gruppa = gruppa
-        this.department = department
-        this.direction_of_training = direction_of_training
-        this.form_of_education = form_of_education
-        this.type_of_financing = type_of_financing
+
     }
 }
 

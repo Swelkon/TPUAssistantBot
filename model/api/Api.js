@@ -21,7 +21,14 @@ class Api {
     static async retrieveUser({chat_id, telegram_token}) {
         const request = new ServerRequest(chat_id, telegram_token)
         const response = await axios.post(`${Api.SERVER_URL}/users/authorize`, request)
-        console.log("Class: Api\nMethod: 'authorizeUser'\nResponse:", response)
+        console.log("Class: Api\nMethod: 'retrieveUser'\nResponse:", response)
+        return response.data
+    }
+
+    static async retrieveStudentInfo({chat_id, telegram_token}) {
+        const request = new ServerRequest(chat_id, telegram_token)
+        const response = await axios.post(`${Api.SERVER_URL}/users/studentInfo`, request)
+        console.log("Class: Api\nMethod: 'retrieveStudentInfo'\nResponse:", response)
         return response.data
     }
 

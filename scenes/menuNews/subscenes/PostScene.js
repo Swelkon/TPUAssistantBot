@@ -23,7 +23,7 @@ function postSceneGenerate() {
                 }
                 await sleep(50)
             }
-            await ctx.reply("Можете опубликовать свою собственную новость. Напишите его обычным сообщением", POST_MARKUP)
+            await ctx.reply("Можете опубликовать свою собственную новость. Напишите ее обычным сообщением", POST_MARKUP)
         }
 
         //await ctx.scene.enter(constants.SCENE_ID_NEWS)
@@ -31,6 +31,7 @@ function postSceneGenerate() {
 
     postScene.hears(constants.BUTTON_TEXT_MAIN_MENU, async (ctx) => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
     postScene.hears(constants.BUTTON_TEXT_BACK, async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
+    postScene.hears(constants.BUTTON_TEXT_START, async (ctx) => ctx.scene.enter(constants.SCENE_ID_START))
 
 
     postScene.on("message", async (ctx) => {

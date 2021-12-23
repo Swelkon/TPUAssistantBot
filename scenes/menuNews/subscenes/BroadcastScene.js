@@ -13,6 +13,7 @@ const BROADCAST_MARKUP = Markup.keyboard([
 let msg
 const users = [-612095035, -699676297]
 
+// Сцена для обратной связи
 function broadcastSceneGenerate() {
     return new WizardScene(
         constants.SCENE_ID_BROADCAST,

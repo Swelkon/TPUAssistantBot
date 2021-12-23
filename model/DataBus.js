@@ -1,4 +1,5 @@
 const User = require('./data/User')
+const StudentInfo = require('./data/StudentInfo')
 const Api = require('./api/Api')
 const constants = require("./constants");
 const vacancies = require("./mockdata/vacancies");
@@ -16,6 +17,7 @@ class DataBus {
     static vacancies = vacancies
     static allowedChannels = [-1001614453874]
 
+    // Метод для получения данных о пользователе через Api
     static async retrieveUser({ctx, chat_id, telegram_token}) {
         try {
             const serverResponse = await Api.retrieveUser({
@@ -29,20 +31,15 @@ class DataBus {
 
                 // If status is OK
                 if (serverResponse.status === Api.STATUS_OK) {
-                    console.log("DataBus | retrieveUser() | user retrieved successfully ")
                     const user = serverResponse.data
+                    console.log("DataBus/retrieveUser: user retrieved:", user)
+
                     ctx.session.user = new User({
                         last_name: user.last_name,
                         first_name: user.first_name,
                         email: user.email,
-                        lichnost_id: user.lichnost_id,
-                        user_id: user.user_id,
                         chat_id: chat_id,
-                        gruppa: user.gruppa,
-                        department: user.department,
-                        direction_of_training: user.direction_of_training,
-                        form_of_education: user.form_of_education,
-                        type_of_financing: user.type_of_financing,
+                        is_student: user.is_student,
                         telegram_token: telegram_token
                     })
                 }
@@ -51,7 +48,7 @@ class DataBus {
 
             return serverResponse.status
         } catch (e) {
-            console.log("DataBus | retrieveUser() | Could not retrieve user information", e)
+            console.log("DataBus/retrieveUser: Error: Could not retrieve user information:", e)
             return Api.STATUS_SERVER_ERROR
         }
 
@@ -59,6 +56,41 @@ class DataBus {
 
     static getUser({ctx}) {
         return ctx.session.user
+    }
+
+    static async retrieveStudentInfo({ctx, chat_id, telegram_token}) {
+        try {
+            const serverResponse = await Api.retrieveStudentInfo({
+                chat_id: chat_id,
+                telegram_token: telegram_token
+            })
+            console.log("DataBus/retrieveStudentInfo: student info retrieved:", serverResponse)
+
+            ctx.session.studentInfo = null
+
+            // If status is OK
+            if (serverResponse.status === Api.STATUS_OK) {
+                const studentInfo = serverResponse.data
+
+                ctx.session.studentInfo = new StudentInfo({
+                    gruppa: studentInfo.gruppa,
+                    gradebook_number: studentInfo.gradebook_number,
+                    department: studentInfo.department,
+                    status: studentInfo.status,
+                    direction_of_training: studentInfo.direction_of_training,
+                    form_of_education: studentInfo.form_of_education,
+                    type_of_financing: studentInfo.type_of_financing,
+                })
+            }
+            return serverResponse.status
+        } catch (e) {
+            console.log("DataBus/retrieveStudentInfo: Error: Could not retrieve student information:", e)
+            return Api.STATUS_SERVER_ERROR
+        }
+    }
+
+    static getStudentInfo({ctx}) {
+        return ctx.session.studentInfo
     }
 
 
@@ -73,7 +105,7 @@ class DataBus {
             })
 
             if (serverResponse.status === Api.STATUS_OK) {
-                console.log("DataBus | submitPost() | saved successfully ")
+                console.log("DataBus/submitPost: saved successfully:", serverResponse)
                 DataBus.retrievePosts()
             }
 
@@ -100,7 +132,7 @@ class DataBus {
 
             return serverResponse.status
         } catch (e) {
-            console.log("DataBus | retrievePosts() | Error! Could not retrieve posts", e)
+            console.log("DataBus/retrievePosts: Error! Could not retrieve posts:", e)
             return Api.STATUS_SERVER_ERROR
         }
     }
@@ -117,19 +149,21 @@ class DataBus {
                     lessons.push(new Lesson(l.id, l.start, l.end, l.tip, l.place, l.event, l.disciplina, l.lichnost))
                 })
 
-                ctx.session.user.userTimetable = lessons
+                // ctx.session.user.userTimetable = lessons
+                ctx.session.userTimetable = lessons
             }
 
             return serverResponse.status
 
         } catch (e) {
-            console.log("DataBus | retrieveUserTimetable() | Error! Could not timetable for the user", e)
+            console.log("DataBus/retrieveUserTimetable: Error! Could not timetable for the user:", e)
             return Api.STATUS_SERVER_ERROR
         }
     }
 
     static getUserTimetable({ctx}) {
-        return ctx.session.user.userTimetable
+        // return ctx.session.user.userTimetable
+        return ctx.session.userTimetable
     }
 
 
@@ -177,7 +211,7 @@ class DataBus {
             console.log(chat_ids)
 
             for (const chat of chat_ids) {
-                if (chat.telegram_chat_id && chat.telegram_chat_id !== 0){
+                if (chat.telegram_chat_id && chat.telegram_chat_id !== 0) {
                     await ctx.telegram.forwardMessage(chat.telegram_chat_id, chat_id, message_id)
                     await sleep(30)
                 }
@@ -186,7 +220,7 @@ class DataBus {
             return serverResponse.status
 
         } catch (e) {
-            console.log("DataBus | sendMessageToOthers() | Error! Could not sent message", e)
+            console.log("DataBus/sendMessageToOthers: Error! Could not sent message:", e)
             return Api.STATUS_SERVER_ERROR
         }
     }

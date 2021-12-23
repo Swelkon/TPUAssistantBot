@@ -62,6 +62,7 @@ const constants = {
     // Else
     BUTTON_TEXT_BACK: "Назад",
     BUTTON_TEXT_MAIN_MENU: "⚙️ Главное меню",
+    BUTTON_TEXT_START: "/start",
 
 
     // Scene ids
