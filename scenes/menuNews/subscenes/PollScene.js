@@ -5,11 +5,14 @@ const Api = require("../../../model/api/Api")
 // const Api = require("../model/api/Api")
 const defaultAct = require("../../../DefaultAct")
 
+// клавиатура назад / главное меню 
 const POLL_MARKUP = Markup.keyboard([[constants.BUTTON_TEXT_BACK, constants.BUTTON_TEXT_MAIN_MENU]]).resize(true)
 
+// генерация сцены голосования
 function pollSceneGenerate() {
     const pollScene = new Scenes.BaseScene(constants.SCENE_ID_POLLS)
 
+    // вход в сцену
     pollScene.enter(async (ctx) => {
         if (DataBus.polls.length === 0) {
             await ctx.reply("Сори) не нашел ни одного активного голосования, но Вы можете запостить самое первое голосование", POLL_MARKUP)
@@ -27,34 +30,32 @@ function pollSceneGenerate() {
             }
             await ctx.reply("Можете создать свое собственное голосование, отпавьте его мне", POLL_MARKUP)
         }
-
         // await ctx.scene.enter(constants.SCENE_ID_NEWS)
     })
-
 
     pollScene.hears(constants.BUTTON_TEXT_MAIN_MENU, async (ctx) => ctx.scene.enter(constants.SCENE_ID_MAIN_MENU))
     pollScene.hears(constants.BUTTON_TEXT_BACK, async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
     pollScene.hears(constants.BUTTON_TEXT_START, async (ctx) => ctx.scene.enter(constants.SCENE_ID_START))
 
+    // запрос на подтверждение отправки в ответ на голосование
     pollScene.on("poll", async (ctx) => {
         ctx.reply("Отправить пост?", {
             reply_to_message_id: ctx.message.message_id,
             reply_markup: Markup.inlineKeyboard([Markup.button.callback('Да', 'btn_yes'), Markup.button.callback('Нет', 'btn_no')]).resize(true).reply_markup
         })
-
         ctx.scene.state.from_chat_id = ctx.message.chat.id
         ctx.scene.state.message_id = ctx.message.message_id
         ctx.scene.state.date = ctx.message.date
         ctx.scene.state.is_poll = true
     })
 
+    // обработка ответа на подтверждение отправки
     pollScene.on("callback_query", async (ctx) => {
         ctx.answerCbQuery()
         if (ctx.callbackQuery?.data === 'btn_no') {
             await ctx.reply("Отправка отменена")
             return
         }
-
         if (ctx.callbackQuery?.data === 'btn_yes') {
             // Handle ServerResponse.status
             if (await DataBus.submitPost({
@@ -64,7 +65,6 @@ function pollSceneGenerate() {
                 date: ctx.scene.state.date,
                 is_poll: ctx.scene.state.is_poll
             }) === Api.STATUS_OK) {
-
                 DataBus.sendMessageToOthers({
                     ctx: ctx,
                     chat_id: ctx.chat.id,
@@ -76,16 +76,13 @@ function pollSceneGenerate() {
             } else {
                 await ctx.reply("Не смог сохранить ваше голосование(")
             }
-
-
         }
-
     })
 
+    // функция с методами для всех сцен, передается сама сцена и сцена для возвращения назад
     defaultAct(pollScene, constants.SCENE_ID_NEWS)
     return pollScene
 }
-
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))

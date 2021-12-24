@@ -14,6 +14,7 @@ format.extend(String.prototype, {})
 //     constants.BUTTON_TEXT_PROFILE,
 // ]).resize(true)
 
+// клавиатура главного меню с количеством новостей 
 function getMainMenuMarkup() {
     if (DataBus.numOfNews === 0) {
         return Markup.keyboard([
@@ -34,15 +35,20 @@ function getMainMenuMarkup() {
     }
 }
 
+
+// генерация сцены главного меню
 function mainMenuSceneGenerate() {
     const mainMenuScene = new Scenes.BaseScene(constants.SCENE_ID_MAIN_MENU)
 
+    // вход в сцену
     mainMenuScene.enter(async (ctx) => {
 
+        // вывод клавиатуры
         await ctx.reply(constants.TEXT_MAIN_MENU, {
             reply_markup: getMainMenuMarkup().reply_markup
         })
 
+        // сбор информации о пользователе
         const user = DataBus.getUser({ctx})
         DataBus.retrievePosts()
         DataBus.retrieveUserTimetable({
@@ -51,9 +57,9 @@ function mainMenuSceneGenerate() {
                 telegram_token: user.telegram_token
             }
         )
-
     })
 
+    // добавление переходов в сцены при нажатии на соответствующие кнопки
     // mainMenuScene.hears(constants.BUTTON_TEXT_NEWS, async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
     mainMenuScene.hears(new RegExp('Новости'), async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
     mainMenuScene.hears(constants.BUTTON_TEXT_TIMETABLE, async (ctx) => ctx.scene.enter(constants.SCENE_ID_TIMETABLE))
@@ -62,6 +68,7 @@ function mainMenuSceneGenerate() {
     mainMenuScene.hears(constants.BUTTON_TEXT_PROFILE, async (ctx) => ctx.scene.enter(constants.SCENE_ID_PROFILE))
     // mainMenuScene.on("message", async (ctx) => ctx.reply("Выберите пункт из меню"))
 
+    // функция с методами для всех сцен, передается сама сцена и сцена для возвращения назад
     defaultAct(mainMenuScene, constants.SCENE_ID_MAIN_MENU)
     return mainMenuScene
 }

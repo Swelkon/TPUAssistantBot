@@ -5,21 +5,21 @@ const DataBus = require("../../../../model/DataBus");
 
 format.extend(String.prototype, {})
 
+// форматирование кнопок 
 function getMarkupButtonList(column, shortlistDict){
     const buttons = []
     for (let name in shortlistDict) {
         let number = shortlistDict[name]
-        const button = Markup.button.callback("{0} ({1})".format(name, number), "get_vacancies/{0}/{1}".format(column, name))
-
+        const button = Markup.button.callback("{0} ({1})".format(name, number), 
+                        "get_vacancies/{0}/{1}".format(column, name))
         buttons.push(button)
     }
     return Markup.inlineKeyboard(buttons, {
         columns: 2
     })
-
 }
 
-
+// функции вывода групп отсортированных вакансий
 async function sortByCompany (ctx) {
     const shortList = getListCompany()
     await ctx.reply(constants.TEXT_VACANCY_LIST_BY_COMPANIES, getMarkupButtonList('company', shortList))
@@ -35,7 +35,7 @@ async function sortByTags(ctx) {
     await ctx.reply(constants.TEXT_VACANCY_LIST_BY_TAGS, getMarkupButtonList('tags', shortList))
 }
 
-// Data-prepare functions
+// функции формирования групп отсортированных вакансий
 function getListCompany(){
     const records = DataBus.vacancies
     let companyDict = {}
@@ -45,7 +45,6 @@ function getListCompany(){
         }
         companyDict[record['company']] += 1
     } )
-
     return companyDict
 }
 
@@ -58,7 +57,6 @@ function getListVacancy(){
         }
         vacancyDict[record['vacancy']] += 1
     } )
-
     return vacancyDict
 }
 
@@ -74,9 +72,7 @@ function getListTags(){
                 tagsDict[tag] += 1
             }
         )
-
     } )
-
     return tagsDict
 }
 

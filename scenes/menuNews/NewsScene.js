@@ -13,6 +13,7 @@ format.extend(String.prototype, {})
 //     constants.BUTTON_TEXT_MAIN_MENU
 // ]).resize()
 
+// клавиатура раздела новостей 
 function getNewsMarkup() {
     return Markup.keyboard([
         constants.BUTTON_TEXT_POSTS.format(DataBus.posts.length),
@@ -25,11 +26,14 @@ function getNewsMarkup() {
     ]).resize()
 }
 
+// генерация сцены новостей
 function newsSceneGenerate() {
     const newsScene = new Scenes.BaseScene(constants.SCENE_ID_NEWS)
 
+    // вход в сцену
     newsScene.enter(async (ctx) => await ctx.reply('Раздел "Новости"', getNewsMarkup()))
 
+    // добавление переходов в сцены при нажатии на соответствующие кнопки
     newsScene.hears(new RegExp('^Посты'), async (ctx) => ctx.scene.enter(constants.SCENE_ID_POSTS))
     newsScene.hears(new RegExp('^Голосования'), async (ctx) => ctx.scene.enter(constants.SCENE_ID_POLLS))
     newsScene.hears(new RegExp('^Вакансии'), async (ctx) => ctx.scene.enter(constants.SCENE_ID_VACANCY))
@@ -37,6 +41,7 @@ function newsSceneGenerate() {
     // newsScene.hears(constants.BUTTON_TEXT_ASK_QUESTION, async (ctx) => ctx.scene.enter(constants.SCENE_ID_ASK_QUESTION))
     newsScene.hears(constants.BUTTON_TEXT_FAQ, async (ctx) => ctx.scene.enter(constants.SCENE_ID_FAQ))
 
+    // функция с методами для всех сцен, передается сама сцена и сцена для возвращения назад
     defaultAct(newsScene, constants.SCENE_ID_MAIN_MENU)
     return newsScene
 }

@@ -1,10 +1,12 @@
 const {Scenes: {WizardScene}, Markup} = require('telegraf')
 const constants = require("../../../model/constants")
 
+// клавиатура да / нет
 const CHOICE_KEYBOARD = Markup.inlineKeyboard([
     Markup.button.callback('Да', 'btn_yes'), Markup.button.callback('Нет', 'btn_no')
 ])
 
+// клавиатура назад / главное меню
 const BROADCAST_MARKUP = Markup.keyboard([
     constants.BUTTON_TEXT_BACK,
     constants.BUTTON_TEXT_MAIN_MENU
@@ -13,7 +15,7 @@ const BROADCAST_MARKUP = Markup.keyboard([
 let msg
 const users = [-612095035, -699676297]
 
-// Сцена для обратной связи
+// генерация сцены обратной связи
 function broadcastSceneGenerate() {
     return new WizardScene(
         constants.SCENE_ID_BROADCAST,
@@ -26,11 +28,13 @@ function broadcastSceneGenerate() {
             if (ctx.message.text === constants.BUTTON_TEXT_MAIN_MENU) ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
             else {
                 msg = ctx.message.text
+                // подтверждение отправки сообщения
                 await ctx.reply('Разослать сообщение?', CHOICE_KEYBOARD)
                 return ctx.wizard.next()
             }
         },
         async (ctx) => {
+            // обработка ответа на подтверждение
             switch (ctx.callbackQuery?.data) {
                 case 'btn_yes':
                     ctx.answerCbQuery()

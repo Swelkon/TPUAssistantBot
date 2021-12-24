@@ -4,10 +4,14 @@ const DataBus = require("../../../model/DataBus")
 const Api = require("../../../model/api/Api")
 const defaultAct = require("../../../DefaultAct")
 
+// клавиатура назад / главное меню 
 const POST_MARKUP = Markup.keyboard([[constants.BUTTON_TEXT_BACK, constants.BUTTON_TEXT_MAIN_MENU]]).resize(true)
 
+// генерация сцены постов
 function postSceneGenerate() {
     const postScene = new Scenes.BaseScene(constants.SCENE_ID_POSTS)
+
+    // вход в сцену
     postScene.enter(async (ctx) => {
         if (DataBus.posts.length === 0) {
             await ctx.reply("Сори) не нашел новостей за неделю", POST_MARKUP)
@@ -25,7 +29,6 @@ function postSceneGenerate() {
             }
             await ctx.reply("Можете опубликовать свою собственную новость. Напишите ее обычным сообщением", POST_MARKUP)
         }
-
         //await ctx.scene.enter(constants.SCENE_ID_NEWS)
     })
 
@@ -33,7 +36,7 @@ function postSceneGenerate() {
     postScene.hears(constants.BUTTON_TEXT_BACK, async (ctx) => ctx.scene.enter(constants.SCENE_ID_NEWS))
     postScene.hears(constants.BUTTON_TEXT_START, async (ctx) => ctx.scene.enter(constants.SCENE_ID_START))
 
-
+    // запрос на подтверждение отправки в ответ на текст поста
     postScene.on("message", async (ctx) => {
         ctx.reply("Отправить пост?", {
             reply_to_message_id: ctx.message.message_id,
@@ -45,13 +48,13 @@ function postSceneGenerate() {
         ctx.scene.state.is_poll = false
     })
 
+    // обработка ответа на подтверждение отправки
     postScene.on("callback_query", async (ctx) => {
         ctx.answerCbQuery()
         if (ctx.callbackQuery?.data === 'btn_no') {
             await ctx.reply("Отправка отменена")
             return
         }
-
         if (ctx.callbackQuery?.data === 'btn_yes') {
             // Handle ServerResponse.status
             if (await DataBus.submitPost({
@@ -61,7 +64,6 @@ function postSceneGenerate() {
                 date: ctx.scene.state.date,
                 is_poll: ctx.scene.state.is_poll
             }) === Api.STATUS_OK) {
-
                 DataBus.sendMessageToOthers({
                     ctx: ctx,
                     chat_id: ctx.chat.id,
@@ -69,20 +71,16 @@ function postSceneGenerate() {
                     message_id: ctx.scene.state.message_id
                 })
                 await ctx.reply("Пост сохранен")
-
             } else {
                 await ctx.reply("Не получилось опубликовать пост(")
             }
-
         }
-
     })
 
-
+    // функция с методами для всех сцен, передается сама сцена и сцена для возвращения назад
     defaultAct(postScene, constants.SCENE_ID_NEWS)
     return postScene
 }
-
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))

@@ -1,6 +1,11 @@
 const {Scenes: {WizardScene, Stage}, Composer, Markup} = require('telegraf')
 const constants = require("../../../model/constants")
 
+/*
+на данный момент сцена не задействована 
+вместо нее сцена с часто задаваемыми вопросами
+*/
+
 const RECIPIENT_MARKUP = Markup.keyboard([
     [constants.BUTTON_TEXT_DEAN],
     [constants.BUTTON_TEXT_STUDENT_COUNCIL],

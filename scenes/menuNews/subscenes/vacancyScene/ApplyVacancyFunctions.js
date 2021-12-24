@@ -1,29 +1,29 @@
 const { Scenes, Markup } = require('telegraf')
 const format = require('string-format')
-
 const { Buffer } = require('buffer')
 const constants = require("../../../../model/constants");
 const DataBus = require("../../../../model/DataBus");
 
 format.extend(String.prototype, {})
 
+// клавиатура да/нет
 const CHOICE_MARKUP = Markup.inlineKeyboard([
     Markup.button.callback("Да", 'btn_yes'),
     Markup.button.callback("Нет", 'btn_no')
 ]).resize(true)
 
-// apply vacancy
+// функция отклика на вакансию
 async function applyVacancy(ctx) {
 
-    // Decode message
+    // расшифровка выбранной вакансии
     const decodedStr = new Buffer
         .from(ctx.message.text.substr(4), 'base64')
         .toString('ascii');
 
-    // Find record
+    // поиск нужной вакансии по расшифрованным данным
     const vacancy = DataBus.vacancies.filter( record => record.click.includes(decodedStr))
 
-    // Check if record is found
+    // если запись найдена, то запросить подтверждение отправления заявки
     if (vacancy.length === 0) {
         await ctx.reply("Не нашел вакансии")
         // TODO: Перейти в меню новости
@@ -35,11 +35,11 @@ async function applyVacancy(ctx) {
 
 }
 
-// Check confirm
+// функция подтверждения заявки на вакансию
 async function confirmVacancyApplication(ctx) {
     if (ctx.callbackQuery?.data === "btn_yes") {
 
-        // Set vacancy in user's data
+        // установить вакансию в данных пользователя
         let is_set = false
         await ctx.reply(constants.TEXT_VACANCY_APPLICATION_SUCCESS)
 
@@ -75,7 +75,6 @@ async function confirmVacancyApplication(ctx) {
         // TODO: Перейти в меню новости
         // await ctx.scene.leave()
     }
-
 }
 
 module.exports = {
