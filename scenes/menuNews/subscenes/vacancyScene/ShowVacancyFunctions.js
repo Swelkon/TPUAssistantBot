@@ -7,6 +7,7 @@ format.extend(String.prototype, {})
 // функция вывода вакансий
 async function showVacancy(ctx) {
     if (ctx.update.callback_query) {
+        ctx.answerCbQuery()
         // получение данных из callback
         const data = ctx.update.callback_query.data.split("/")
         const key = data[1]

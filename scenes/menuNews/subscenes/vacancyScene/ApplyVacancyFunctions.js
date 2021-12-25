@@ -38,10 +38,11 @@ async function applyVacancy(ctx) {
 // функция подтверждения заявки на вакансию
 async function confirmVacancyApplication(ctx) {
     if (ctx.callbackQuery?.data === "btn_yes") {
+        ctx.answerCbQuery()
 
         // установить вакансию в данных пользователя
         let is_set = false
-        await ctx.reply(constants.TEXT_VACANCY_APPLICATION_SUCCESS)
+        await ctx.editMessageText(constants.TEXT_VACANCY_APPLICATION_SUCCESS)
 
 
         // constants.users.forEach( user => {
@@ -70,8 +71,9 @@ async function confirmVacancyApplication(ctx) {
         //
 
     } else if (ctx.callbackQuery?.data === "btn_no") {
+        ctx.answerCbQuery()
         // await ctx.replyWithSticker(constants.STICKER_ID_DONT_KNOW, SORT_MARKUP)
-        await ctx.reply(constants.TEXT_VACANCY_APPLICATION_CANCEL)
+        await ctx.editMessageText(constants.TEXT_VACANCY_APPLICATION_CANCEL)
         // TODO: Перейти в меню новости
         // await ctx.scene.leave()
     }
