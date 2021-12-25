@@ -1,4 +1,4 @@
-const {Telegraf, Scenes, session, Composer} = require("telegraf")
+const {Telegraf, Scenes, session, Composer, Markup} = require("telegraf")
 require("dotenv/config")
 const constants = require("./model/constants")
 
@@ -63,7 +63,7 @@ bot.start(async (ctx) => {
     await ctx.scene.enter(constants.SCENE_ID_START)
 })
 bot.on('message', async (ctx) => {
-    await ctx.reply('Нажмите на /start для авторизации')
+    await ctx.reply('Нажмите на /start для авторизации', Markup.removeKeyboard())
 })
 
 

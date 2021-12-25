@@ -1,5 +1,6 @@
 const {Scenes: {WizardScene}, Markup} = require('telegraf')
 const constants = require("../../../model/constants")
+const DataBus = require("../../../model/DataBus");
 
 // клавиатура подтверждения действия
 const CHOICE_KEYBOARD = Markup.inlineKeyboard([
@@ -13,7 +14,8 @@ const FEEDBACK_MARKUP = Markup.keyboard([
 ]).resize(true)
 
 let msg // отправляемое сообщение
-const users = [452118266, 819382563] // chat_id разработчиков
+const developers = constants.DEVELOPERS_GROUP // chat_id разработчиков
+// const developers = [452118266, 819382563] // chat_id разработчиков
 
 // сцена для обратной связи
 function feedbackSceneGenerate() {
@@ -62,8 +64,13 @@ function sleep(ms) {
 
 // отправка сообщения разработчикам
 async function sendMsg(msg, ctx) {
-    for (let i in users) {
-        await ctx.telegram.sendMessage(users[i], msg)
+    for (let i in developers) {
+        const user = DataBus.getUser({ctx: ctx})
+        let feedback_message = `Feedback от @${ctx.callbackQuery.from.username}\n`
+        feedback_message += `Имя пользователя: ${user.first_name} ${user.last_name}\n`
+        feedback_message += `Email: ${user.email}\n`
+        feedback_message += `Feedback: «${msg}»\n`
+        await ctx.telegram.sendMessage(developers[i], feedback_message)
         await sleep(35)
     }
 }

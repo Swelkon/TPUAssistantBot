@@ -81,6 +81,8 @@ const constants = {
     SCENE_ID_FAQ: 'faq',
     SCENE_ID_VACANCY: 'vacancy',
 
+    DEVELOPERS_GROUP: [-699676297]
+
 }
 
 module.exports = constants
