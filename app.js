@@ -1,4 +1,4 @@
-const {Telegraf, Scenes, session, Composer} = require("telegraf")
+const {Telegraf, Scenes, session, Composer, Markup} = require("telegraf")
 require("dotenv/config")
 const constants = require("./model/constants")
 
@@ -8,7 +8,7 @@ const educationSceneGenerate = require("./scenes/menuEducation/EducationScene")
 const campusSceneGenerate = require("./scenes/menuEducation/subscenes/CampusScene")
 const profileSceneGenerate = require("./scenes/menuProfile/ProfileScene")
 const newsSceneGenerate = require("./scenes/menuNews/NewsScene")
-const broadcastSceneGenerate = require("./scenes/menuNews/subscenes/BroadcastScene")
+const feedbackSceneGenerate = require("./scenes/menuNews/subscenes/FeedbackScene")
 const askQuestionSceneGenerate = require("./scenes/menuNews/subscenes/AskQuestionScene")
 const faqSceneGenerate = require("./scenes/menuNews/subscenes/FAQScene")
 const pollSceneGenerate = require("./scenes/menuNews/subscenes/PollScene")
@@ -29,7 +29,7 @@ const stage = new Scenes.Stage([
     campusSceneGenerate(),
     profileSceneGenerate(),
     newsSceneGenerate(),
-    broadcastSceneGenerate(),
+    feedbackSceneGenerate(),
     askQuestionSceneGenerate(),
     pollSceneGenerate(),
     postSceneGenerate(),
@@ -58,7 +58,7 @@ bot.start(async (ctx) => {
     await ctx.scene.enter(constants.SCENE_ID_START)
 })
 bot.on('message', async (ctx) => {
-    await ctx.reply('Нажмите на /start для авторизации')
+    await ctx.reply('Нажмите на /start для авторизации', Markup.removeKeyboard())
 })
 
 bot.launch()

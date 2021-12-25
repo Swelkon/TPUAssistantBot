@@ -19,9 +19,9 @@ function getNewsMarkup() {
         constants.BUTTON_TEXT_POSTS.format(DataBus.posts.length),
         constants.BUTTON_TEXT_POLLS.format(DataBus.polls.length),
         constants.BUTTON_TEXT_VACANCIES.format(DataBus.vacancies.length),
-        // constants.BUTTON_TEXT_BROADCAST,
-        // constants.BUTTON_TEXT_ASK_QUESTION,
         constants.BUTTON_TEXT_FAQ,
+        constants.BUTTON_TEXT_FEEDBACK,
+        // constants.BUTTON_TEXT_ASK_QUESTION,
         constants.BUTTON_TEXT_MAIN_MENU
     ]).resize()
 }
@@ -37,7 +37,7 @@ function newsSceneGenerate() {
     newsScene.hears(new RegExp('^Посты'), async (ctx) => ctx.scene.enter(constants.SCENE_ID_POSTS))
     newsScene.hears(new RegExp('^Голосования'), async (ctx) => ctx.scene.enter(constants.SCENE_ID_POLLS))
     newsScene.hears(new RegExp('^Вакансии'), async (ctx) => ctx.scene.enter(constants.SCENE_ID_VACANCY))
-    // newsScene.hears(constants.BUTTON_TEXT_BROADCAST, async (ctx) => ctx.scene.enter(constants.SCENE_ID_BROADCAST))
+    newsScene.hears(constants.BUTTON_TEXT_FEEDBACK, async (ctx) => ctx.scene.enter(constants.SCENE_ID_FEEDBACK))
     // newsScene.hears(constants.BUTTON_TEXT_ASK_QUESTION, async (ctx) => ctx.scene.enter(constants.SCENE_ID_ASK_QUESTION))
     newsScene.hears(constants.BUTTON_TEXT_FAQ, async (ctx) => ctx.scene.enter(constants.SCENE_ID_FAQ))
 

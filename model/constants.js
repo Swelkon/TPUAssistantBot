@@ -37,7 +37,7 @@ const constants = {
     // News
     BUTTON_TEXT_POSTS: "Посты ({0})",
     BUTTON_TEXT_POLLS: "Голосования ({0})",
-    BUTTON_TEXT_BROADCAST: "Сделать массовую рассылку",
+    BUTTON_TEXT_FEEDBACK: "Обратная связь",
     BUTTON_TEXT_ASK_QUESTION: "Задать вопрос Q&A",
     BUTTON_TEXT_FAQ: "Задать вопрос FAQ",
 
@@ -72,7 +72,7 @@ const constants = {
     SCENE_ID_CAMPUS: 'campus',
     SCENE_ID_CHAT_NOT_PRIVATE: 'chat_not_private',
     SCENE_ID_PROFILE: 'profile',
-    SCENE_ID_BROADCAST: 'broadcast',
+    SCENE_ID_FEEDBACK: 'feedback',
     SCENE_ID_NEWS: 'news',
     SCENE_ID_ASK_QUESTION: 'ask_question',
     SCENE_ID_POLLS: 'polls',
@@ -80,6 +80,8 @@ const constants = {
     SCENE_ID_TIMETABLE: 'timetable',
     SCENE_ID_FAQ: 'faq',
     SCENE_ID_VACANCY: 'vacancy',
+
+    DEVELOPERS_GROUP: [-699676297]
 
 }
 
