@@ -8,7 +8,7 @@ const educationSceneGenerate = require("./scenes/menuEducation/EducationScene")
 const campusSceneGenerate = require("./scenes/menuEducation/subscenes/CampusScene")
 const profileSceneGenerate = require("./scenes/menuProfile/ProfileScene")
 const newsSceneGenerate = require("./scenes/menuNews/NewsScene")
-const broadcastSceneGenerate = require("./scenes/menuNews/subscenes/BroadcastScene")
+const feedbackSceneGenerate = require("./scenes/menuNews/subscenes/FeedbackScene")
 const askQuestionSceneGenerate = require("./scenes/menuNews/subscenes/AskQuestionScene")
 const faqSceneGenerate = require("./scenes/menuNews/subscenes/FAQScene")
 const pollSceneGenerate = require("./scenes/menuNews/subscenes/PollScene")
@@ -30,7 +30,7 @@ const stage = new Scenes.Stage([
     campusSceneGenerate(),
     profileSceneGenerate(),
     newsSceneGenerate(),
-    broadcastSceneGenerate(),
+    feedbackSceneGenerate(),
     askQuestionSceneGenerate(),
     pollSceneGenerate(),
     postSceneGenerate(),

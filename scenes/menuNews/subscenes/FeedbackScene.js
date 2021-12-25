@@ -1,35 +1,40 @@
 const {Scenes: {WizardScene}, Markup} = require('telegraf')
 const constants = require("../../../model/constants")
 
+// клавиатура подтверждения действия
 const CHOICE_KEYBOARD = Markup.inlineKeyboard([
     Markup.button.callback('Да', 'btn_yes'), Markup.button.callback('Нет', 'btn_no')
 ])
 
-const BROADCAST_MARKUP = Markup.keyboard([
+// клавиатура выхода из сцены
+const FEEDBACK_MARKUP = Markup.keyboard([
     constants.BUTTON_TEXT_BACK,
     constants.BUTTON_TEXT_MAIN_MENU
 ]).resize(true)
 
-let msg
-const users = [-612095035, -699676297]
+let msg // отправляемое сообщение
+const users = [452118266, 819382563] // chat_id разработчиков
 
-// Сцена для обратной связи
-function broadcastSceneGenerate() {
+// сцена для обратной связи
+function feedbackSceneGenerate() {
     return new WizardScene(
-        constants.SCENE_ID_BROADCAST,
+        constants.SCENE_ID_FEEDBACK,
+        // 1 шаг - запрос сообщения
         async (ctx) => {
-            await ctx.reply('Наберите текст сообщения', BROADCAST_MARKUP)
+            await ctx.reply('Наберите текст сообщения, которое хотите оставить разработчикам', FEEDBACK_MARKUP)
             return ctx.wizard.next()
         },
+        // 2 шаг - подтверждение действия
         async (ctx) => {
             if (ctx.message.text === constants.BUTTON_TEXT_BACK) ctx.scene.enter(constants.SCENE_ID_NEWS)
             if (ctx.message.text === constants.BUTTON_TEXT_MAIN_MENU) ctx.scene.enter(constants.SCENE_ID_MAIN_MENU)
             else {
                 msg = ctx.message.text
-                await ctx.reply('Разослать сообщение?', CHOICE_KEYBOARD)
+                await ctx.reply('Отправить сообщение?', CHOICE_KEYBOARD)
                 return ctx.wizard.next()
             }
         },
+        // 3 шаг - отправка сообщения
         async (ctx) => {
             switch (ctx.callbackQuery?.data) {
                 case 'btn_yes':
@@ -50,10 +55,12 @@ function broadcastSceneGenerate() {
     )
 }
 
+// приостановка выполнения функции
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+// отправка сообщения разработчикам
 async function sendMsg(msg, ctx) {
     for (let i in users) {
         await ctx.telegram.sendMessage(users[i], msg)
@@ -61,4 +68,4 @@ async function sendMsg(msg, ctx) {
     }
 }
 
-module.exports = broadcastSceneGenerate
+module.exports = feedbackSceneGenerate

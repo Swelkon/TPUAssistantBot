@@ -18,9 +18,9 @@ function getNewsMarkup() {
         constants.BUTTON_TEXT_POSTS.format(DataBus.posts.length),
         constants.BUTTON_TEXT_POLLS.format(DataBus.polls.length),
         constants.BUTTON_TEXT_VACANCIES.format(DataBus.vacancies.length),
-        // constants.BUTTON_TEXT_BROADCAST,
-        // constants.BUTTON_TEXT_ASK_QUESTION,
         constants.BUTTON_TEXT_FAQ,
+        constants.BUTTON_TEXT_FEEDBACK,
+        // constants.BUTTON_TEXT_ASK_QUESTION,
         constants.BUTTON_TEXT_MAIN_MENU
     ]).resize()
 }
