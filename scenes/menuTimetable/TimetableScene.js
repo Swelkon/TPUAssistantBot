@@ -43,8 +43,6 @@ const lessonsTime = {
     '20:20 – 21:55': '7️⃣'
 }
 
-let date = new Date() 
-let numDate = date.getDay() // получение сегодняшнего дня недели
 let retrievedLessons = null
 
 // генерация сцены расписания
@@ -53,8 +51,6 @@ function timetableSceneGenerate() {
 
     // вход в сцену
     timetableScene.enter(async (ctx) => {
-        date = new Date() 
-        numDate = date.getDay() // получение сегодняшнего дня недели
 
         if (!DataBus.getUser({ctx: ctx})) {
             await ctx.reply('Кажется кто-то не авторизован)')
@@ -72,7 +68,7 @@ function timetableSceneGenerate() {
             // }
             await ctx.reply('Раздел "Расписание"', TIMETABLE_MARKUP)
             // отправка расписания на сегодняшний день
-            await sendTimetable(numDate, ctx)
+            await sendTimetable(getNumDate(), ctx)
         } else {
             await ctx.reply('Минуту, сейчас достану ваше расписание) ...')
 
@@ -114,8 +110,8 @@ function timetableSceneGenerate() {
     })
 
     // добавление вывода расписания при нажатии на соответствующие кнопки
-    timetableScene.hears(constants.BUTTON_TEXT_TT_TODAY, async (ctx) => sendTimetable(numDate, ctx))
-    timetableScene.hears(constants.BUTTON_TEXT_TT_TOMORROW, async (ctx) => sendTimetable((numDate + 1) % 7, ctx))
+    timetableScene.hears(constants.BUTTON_TEXT_TT_TODAY, async (ctx) => { await sendTimetable(getNumDate(), ctx)})
+    timetableScene.hears(constants.BUTTON_TEXT_TT_TOMORROW, async (ctx) => sendTimetable((getNumDate() + 1) % 7, ctx))
     
     // вывод клавиатуры для выбора дня недели
     timetableScene.hears(constants.BUTTON_TEXT_TT_DAY, async (ctx) => ctx.reply('Расписание на неделю', WEEKDAYS_MARKUP))
@@ -152,6 +148,13 @@ function timetableSceneGenerate() {
     return timetableScene
 }
 
+// функция для получения текущей даты
+function getNumDate() {
+    const date = new Date()
+    const numDate = date.getDay()
+    return numDate
+}
+
 // функция формирования сообщения с расписанием
 async function sendTimetable(day, ctx) {
     // получение расписания
@@ -173,7 +176,7 @@ async function sendTimetable(day, ctx) {
                     if (l.lichnost?.[j]) str += `${l.lichnost?.[j]?.title}\n`
                 }
                 // добавление типа пары и очного места проведения
-                str += `${l.tip}\n`
+                if (l?.tip) str += `${l.tip}\n`
                 if (l?.place) str += `к. ${l.place?.korpus}, ауд. ${l.place?.nomer}\n`
                 if (l?.place) str += `Где это? ${l.where}\n`
             }

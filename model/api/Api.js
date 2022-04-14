@@ -7,6 +7,7 @@ class Api {
 
     static MODE = process.env.MODE
     static SERVER_URL = this.MODE === 'prod' ? process.env.BASE_PROD_URL : process.env.BASE_DEV_URL
+    // static SERVER_URL = this.MODE === 'prod' ? "" : ""
     static FAQ_URL = process.env.FAQ_URL
     static FAQ_ENDPOINT_KEY = process.env.ENDPOINT_KEY
 
@@ -20,14 +21,14 @@ class Api {
     // Authorize method
     static async retrieveUser({chat_id, telegram_token}) {
         const request = new ServerRequest(chat_id, telegram_token)
-        const response = await axios.post(`${Api.SERVER_URL}/users/authorize`, request)
+        const response = await axios.post(`/users/authorize`, request)
         console.log("Class: Api\nMethod: 'retrieveUser'\nResponse:", response)
         return response.data
     }
 
     static async retrieveStudentInfo({chat_id, telegram_token}) {
         const request = new ServerRequest(chat_id, telegram_token)
-        const response = await axios.post(`${Api.SERVER_URL}/users/studentInfo`, request)
+        const response = await axios.post(`/users/studentInfo`, request)
         console.log("Class: Api\nMethod: 'retrieveStudentInfo'\nResponse:", response)
         return response.data
     }
@@ -40,32 +41,32 @@ class Api {
             is_poll: is_poll
         })
         const request = new ServerRequest(from_chat_id, telegram_token, channelPost)
-        const response = await axios.post(`${Api.SERVER_URL}/channels/posts`, request)
+        const response = await axios.post(`/channels/posts`, request)
         return response.data
     }
 
     static async retrievePosts() {
-        const response = await axios.get(`${Api.SERVER_URL}/channels/posts`)
+        const response = await axios.get(`/channels/posts`)
         console.log(response.data)
         return response.data
     }
 
     static async retrieveTimetable({chat_id, telegram_token}) {
         const request = new ServerRequest(chat_id, telegram_token)
-        const response = await axios.post(`${Api.SERVER_URL}/rasp`, request)
+        const response = await axios.post(`/rasp`, request)
         console.log(response.data)
         return response.data
     }
 
     static async retrieveTelegramChatIds({chat_id, telegram_token}) {
         const request = new ServerRequest(chat_id, telegram_token)
-        const response = await axios.post(`${Api.SERVER_URL}/users/telegram`, request)
+        const response = await axios.post(`/users/telegram`, request)
         console.log(response.data)
         return response.data
     }
 
     static async retrieveFAQAnswer(text) {
-        const response = await axios.post(`${Api.SERVER_URL}/questions/faq`,
+        const response = await axios.post(`/questions/faq`,
             {'question': text}, {})
         return response.data
     }
@@ -84,6 +85,8 @@ class Api {
 
     static getRegistrationURL({chat_id}) {
         return `https://oauth.tpu.ru/authorize?client_id=23&redirect_uri=${Api.SERVER_URL}/users/register&response_type=code&state=${chat_id}`
+        // TODO: установил proxy localhost
+        // return `https://oauth.tpu.ru/authorize?client_id=23&redirect_uri=http://85.143.78.60:3000/users/register&response_type=code&state=${chat_id}`
     }
 
 
