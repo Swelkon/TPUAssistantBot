@@ -60,7 +60,7 @@ function timetableSceneGenerate() {
         // получение расписания пользователя на текущую неделю
         retrievedLessons = DataBus.getUserTimetable({ctx: ctx})
 
-        if (retrievedLessons && retrievedLessons.length !== 0) {
+        if (retrievedLessons ) {
             await ctx.reply('Раздел "Расписание"', TIMETABLE_MARKUP)
             // отправка расписания на сегодняшний день
             await sendTimetable(getNumDate(), ctx)
