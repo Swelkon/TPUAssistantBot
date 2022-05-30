@@ -56,35 +56,16 @@ function timetableSceneGenerate() {
             await ctx.reply('Кажется кто-то не авторизован)')
             await ctx.scene.enter(constants.SCENE_ID_START)
         }
-        
-        // lessons = []
+
         // получение расписания пользователя на текущую неделю
         retrievedLessons = DataBus.getUserTimetable({ctx: ctx})
-        // retrievedLessons = []
+
         if (retrievedLessons && retrievedLessons.length !== 0) {
-            // for (let i = 0; i < retrievedLessons.length; i++) {
-            //     let l = retrievedLessons[i]
-            //     lessons.push(new Lesson(l.id, l.start, l.end, l.tip, l.place, l.event, l.disciplina, l.lichnost))
-            // }
             await ctx.reply('Раздел "Расписание"', TIMETABLE_MARKUP)
             // отправка расписания на сегодняшний день
             await sendTimetable(getNumDate(), ctx)
         } else {
             await ctx.reply('Минуту, сейчас достану ваше расписание) ...')
-
-            // switch (await DataBus.retrieveUserTimetable({
-            //     ctx: ctx,
-            //     chat_id: ctx.chat.id,
-            //     telegram_token: DataBus.getUser({ctx: ctx}).telegram_token
-            // })) {
-            //     case Api.STATUS_OK:
-            //         ctx.scene.reenter()
-            //         break
-            //     default:
-            //         await ctx.reply("Мне нужно обновить данные. Пожалуйста, авторизируйтесь еще раз через почту ТПУ")
-            //         await ctx.scene.enter(constants.SCENE_ID_START)
-            //         break
-            // }
         }
 
         // запрос на получение расписания пользователя через api
@@ -95,8 +76,8 @@ function timetableSceneGenerate() {
         }).then((status) => {
             // если успешно, но расписание еще не выведено, то повторный вход в сцену
                 if (status === Api.STATUS_OK) {
-                    if (!retrievedLessons || retrievedLessons.length === 0) {
-                        // ctx.reply("Не смог достать данные расписания(")
+                    if (!retrievedLessons ) {
+                        ctx.scene.reenter()
                     }
                 } else {
                     // иначе предложение пройти авторизацию
