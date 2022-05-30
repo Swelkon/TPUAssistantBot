@@ -96,7 +96,7 @@ function timetableSceneGenerate() {
             // если успешно, но расписание еще не выведено, то повторный вход в сцену
                 if (status === Api.STATUS_OK) {
                     if (!retrievedLessons || retrievedLessons.length === 0) {
-                        ctx.scene.reenter()
+                        // ctx.reply("Не смог достать данные расписания(")
                     }
                 } else {
                     // иначе предложение пройти авторизацию
